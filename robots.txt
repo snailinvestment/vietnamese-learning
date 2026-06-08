@@ -1,0 +1,6 @@
+# robots.txt for Vietnamese Learning Tool
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://snailinvestment.github.io/vietnamese-learning/sitemap.xml
