@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>越南语零基础学习工具 - 免费在线学习 | Vietnamese Learning</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 10px; }
+  .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+  .header { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 20px; text-align: center; }
+  .header h1 { font-size: 1.5em; margin-bottom: 5px; }
+  .header p { font-size: 0.9em; opacity: 0.9; }
+  .tabs { display: flex; flex-wrap: wrap; background: #f8f9fa; border-bottom: 2px solid #dee2e6; overflow-x: auto; }
+  .tab-btn { padding: 10px 14px; border: none; background: none; cursor: pointer; font-size: 0.85em; white-space: nowrap; color: #666; border-bottom: 3px solid transparent; transition: all 0.3s; }
+  .tab-btn:hover { background: #e9ecef; color: #333; }
+  .tab-btn.active { color: #e74c3c; border-bottom-color: #e74c3c; font-weight: bold; background: white; }
+  .content { padding: 20px; max-height: 75vh; overflow-y: auto; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .section-title { font-size: 1.3em; color: #e74c3c; margin: 20px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; }
+  .section-title:first-child { margin-top: 0; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin: 12px 0; }
+  .card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 10px; padding: 12px; cursor: pointer; transition: all 0.2s; text-align: center; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-color: #e74c3c; }
+  .card:active { transform: scale(0.98); }
+  .card .vn { font-size: 1.4em; font-weight: bold; color: #e74c3c; }
+  .card .pron { font-size: 0.85em; color: #666; margin: 4px 0; }
+  .card .cn { font-size: 0.9em; color: #333; }
+  .info-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 0.9em; line-height: 1.6; }
+  .tip-box { background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 0.9em; line-height: 1.6; }
+  .warn-box { background: #f8d7da; border-left: 4px solid #dc3545; padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 0.9em; line-height: 1.6; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9em; }
+  th { background: #e74c3c; color: white; padding: 8px 10px; text-align: left; }
+  td { padding: 8px 10px; border-bottom: 1px solid #eee; }
+  tr:hover { background: #f8f9fa; cursor: pointer; }
+  tr:active { background: #fff3cd; }
+  .dialogue-box { background: #f0f4ff; border-radius: 10px; padding: 16px; margin: 12px 0; }
+  .dialogue-line { margin: 8px 0; padding: 8px 12px; border-radius: 8px; }
+  .dialogue-a { background: #e3f2fd; }
+  .dialogue-b { background: #fce4ec; margin-left: 30px; }
+  .speaker { font-weight: bold; color: #1976d2; }
+  .speaker.b { color: #c2185b; }
+  .vq { color: #e74c3c; font-weight: bold; }
+  .cc { color: #333; }
+  .pp { color: #666; font-size: 0.85em; }
+  .quiz-question { background: #f8f9fa; border-radius: 10px; padding: 16px; margin: 12px 0; }
+  .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .quiz-opt { padding: 10px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s; font-size: 0.9em; }
+  .quiz-opt:hover { border-color: #e74c3c; background: #fff5f5; }
+  .quiz-opt.correct { border-color: #27ae60; background: #d4edda; }
+  .quiz-opt.wrong { border-color: #dc3545; background: #f8d7da; }
+  .quiz-result { text-align: center; padding: 20px; font-size: 1.2em; }
+  .status-bar { text-align: center; color: #888; font-size: 0.85em; margin: 10px 0; min-height: 24px; }
+  .voice-select-row { max-width: 600px; margin: 6px auto; text-align: center; font-size: 0.85em; color: #666; }
+  .voice-select-row select { padding: 4px 8px; border-radius: 6px; border: 1px solid #ccc; max-width: 280px; }
+  .reload-btn { padding: 4px 12px; background: #f39c12; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85em; margin-left: 8px; }
+  .reload-btn:hover { background: #e67e22; }
+  .speak-btn { display: inline-block; padding: 4px 10px; background: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8em; margin-left: 6px; vertical-align: middle; }
+  .speak-btn:hover { background: #219a52; }
+  .sub-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .sub-tab { padding: 6px 14px; border: 1px solid #ddd; border-radius: 20px; cursor: pointer; font-size: 0.85em; background: white; }
+  .sub-tab.active { background: #e74c3c; color: white; border-color: #e74c3c; }
+  @media (max-width: 600px) {
+    .card-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .quiz-options { grid-template-columns: 1fr; }
+    .tab-btn { padding: 8px 10px; font-size: 0.8em; }
+  }
+</style>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="免费越南语零基础学习工具 - 提供越南语字母、声调、发音、词汇、对话、旅游用语等完整学习内容。支持点击发音，适合初学者快速入门。">
+  <meta name="keywords" content="越南语学习,越南语入门,越南语发音,越南语字母,越南语声调,越南语词汇,越南语对话,零基础越南语,越南语教程,学习越南语">
+  <meta name="author" content="Vietnamese Learning Tool">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://snailinvestment.github.io/vietnamese-learning/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="越南语零基础学习工具 - 免费在线学习">
+  <meta property="og:description" content="免费越南语零基础学习工具 - 提供越南语字母、声调、发音、词汇、对话、旅游用语等完整学习内容。支持点击发音，适合初学者快速入门。">
+  <meta property="og:image" content="https://snailinvestment.github.io/vietnamese-learning/og-image.png">
+  <meta property="og:url" content="https://snailinvestment.github.io/vietnamese-learning/">
+  <meta property="og:site_name" content="越南语零基础学习工具">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="越南语零基础学习工具 - 免费在线学习">
+  <meta name="twitter:description" content="免费越南语零基础学习工具 - 提供越南语字母、声调、发音、词汇、对话、旅游用语等完整学习内容。">
+  <meta name="twitter:image" content="https://snailinvestment.github.io/vietnamese-learning/og-image.png">
+
+  <!-- Google Analytics (GA4 测量 ID: G-XQS4GVPXD2) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XQS4GVPXD2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XQS4GVPXD2');
+  </script>
+
+  <!-- Structured Data / Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "越南语零基础学习工具",
+    "description": "免费越南语零基础学习工具 - 提供越南语字母、声调、发音、词汇、对话、旅游用语等完整学习内容",
+    "url": "https://snailinvestment.github.io/vietnamese-learning/",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "inLanguage": ["vi", "zh-CN"],
+    "author": {
+      "@type": "Person",
+      "name": "Vietnamese Learning Tool"
+    }
+  }
+  </script>
+
+
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🇻🇳 越南语零基础学习工具</h1>
+    <p>完整版 — 字母 · 声调 · 问候 · 数字 · 词汇 · 语法 · 对话 · 常用 · 旅游 · 商务 · 造句</p>
+  </div>
+  <div style="background:#f8f9fa;padding:10px 20px;border-bottom:1px solid #dee2e6;text-align:center">
+    <div class="status-bar" id="status-bar" style="margin:0">正在初始化语音引擎...</div>
+    <div id="voice-warning" style="display:none;background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:10px;max-width:600px;margin:6px auto;font-size:0.85em;color:#856404;text-align:left">
+      ⚠️ <b>未检测到越南语语音包</b><br>
+      当前浏览器将使用默认语音朗读，发音可能不准确。<br>
+      <b>解决方法：</b>在 Windows 设置 → 时间和语言 → 语言 → 添加"越南语"语言包，然后重启浏览器。<br>
+      或在 <b>Chrome / Edge</b> 中打开此页面，并安装越南语语音包。
+    </div>
+    <div class="voice-select-row" style="margin:4px auto">
+      <label>选择语音：</label>
+      <select id="voice-select"></select>
+      <button class="reload-btn" onclick="reloadVoices()">🔄 重新加载</button>
+    </div>
+    <div style="font-size:0.8em;color:#666;margin-top:6px">
+      <details>
+        <summary style="cursor:pointer;color:#e74c3c;font-weight:bold">💡 如何让发音更准确？点击展开安装教程</summary>
+        <div style="text-align:left;background:#f8f9fa;padding:12px;border-radius:8px;margin-top:8px;line-height:1.8">
+          <b>Windows 安装越南语语音包步骤：</b><br>
+          1️⃣ 打开 <b>设置</b> → <b>时间和语言</b> → <b>语言和区域</b><br>
+          2️⃣ 点击 <b>添加语言</b>，搜索并选择 <b>越南语 (Tiếng Việt)</b><br>
+          3️⃣ 安装时勾选 <b>语音</b> 和 <b>文字转语音</b> 选项<br>
+          4️⃣ 等待下载完成（约 100MB）<br>
+          5️⃣ <b>重启浏览器</b>，刷新本页面<br>
+          6️⃣ 点击上方 <b>🔄 重新加载</b> 按钮，选择越南语语音<br><br>
+          <b>Mac 用户：</b>系统偏好设置 → 辅助功能 → 朗读内容 → 系统声音 → 自定义 → 添加越南语<br>
+          <b>Chromebook：</b>设置 → 无障碍 → 文字转语音输出 → 添加越南语
+        </div>
+      </details>
+    </div>
+  </div>
+  <div class="tabs" id="main-tabs">
+    <button class="tab-btn active" onclick="switchTab('alphabet', this)">🔤 字母</button>
+    <button class="tab-btn" onclick="switchTab('tones', this)">🎵 声调</button>
+    <button class="tab-btn" onclick="switchTab('greetings', this)">👋 问候</button>
+    <button class="tab-btn" onclick="switchTab('numbers', this)">🔢 数字</button>
+    <button class="tab-btn" onclick="switchTab('vocabulary', this)">📦 词汇</button>
+    <button class="tab-btn" onclick="switchTab('grammar', this)">📖 语法</button>
+    <button class="tab-btn" onclick="switchTab('dialogues', this)">💬 对话</button>
+    <button class="tab-btn" onclick="switchTab('daily', this)">📋 常用</button>
+    <button class="tab-btn" onclick="switchTab('travel', this)">✈️ 旅游</button>
+    <button class="tab-btn" onclick="switchTab('business', this)">💼 商务</button>
+    <button class="tab-btn" onclick="switchTab('hobbies', this)">🎨 Sở thích (兴趣爱好)</button>
+    <button class="tab-btn" onclick="switchTab('sentences', this)">✏️ 造句</button>
+    <button class="tab-btn" onclick="switchTab('quiz', this)">📝 测验</button>
+    <button class="tab-btn" onclick="switchTab('freestyle', this)">🎤 朗读</button>
+  </div>
+  <div class="content" id="main-content">
+
+    <div id="tab-alphabet" class="tab-content active">
+      <div class="section-title">🔤 越南语字母表（29个）</div>
+      <div class="info-box">
+        💡 越南语使用拉丁字母，在26个英文字母基础上增加了 <b>ă, â, đ, ê, ô, ơ, ư</b> 这7个字母。
+        点击卡片可听到发音（需要浏览器支持越南语语音）。
+      </div>
+      <div class="section-title" style="font-size:1.1em">元音字母</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('a')"><div class="vn">a</div><div class="pron">/a/ 啊</div><div class="cn">a</div></div>
+        <div class="card" onclick="speakText('ă')"><div class="vn">ă</div><div class="pron">/ă/ 短啊</div><div class="cn">ă（短）</div></div>
+        <div class="card" onclick="speakText('â')"><div class="vn">â</div><div class="pron">/əː/ 呃</div><div class="cn">â</div></div>
+        <div class="card" onclick="speakText('e')"><div class="vn">e</div><div class="pron">/ɛ/ 耶</div><div class="cn">e</div></div>
+        <div class="card" onclick="speakText('ê')"><div class="vn">ê</div><div class="pron">/eː/ 耶（长）</div><div class="cn">ê</div></div>
+        <div class="card" onclick="speakText('i')"><div class="vn">i</div><div class="pron">/i/ 一</div><div class="cn">i</div></div>
+        <div class="card" onclick="speakText('o')"><div class="vn">o</div><div class="pron">/ɔ/ 噢</div><div class="cn">o</div></div>
+        <div class="card" onclick="speakText('ô')"><div class="vn">ô</div><div class="pron">/oː/ 欧</div><div class="cn">ô</div></div>
+        <div class="card" onclick="speakText('ơ')"><div class="vn">ơ</div><div class="pron">/əː/ 呃（轻）</div><div class="cn">ơ</div></div>
+        <div class="card" onclick="speakText('u')"><div class="vn">u</div><div class="pron">/u/ 乌</div><div class="cn">u</div></div>
+        <div class="card" onclick="speakText('ư')"><div class="vn">ư</div><div class="pron">/ɨ/ 乌（不圆唇）</div><div class="cn">ư</div></div>
+        <div class="card" onclick="speakText('y')"><div class="vn">y</div><div class="pron">/i/ 一（同i）</div><div class="cn">y</div></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">辅音字母</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('b')"><div class="vn">b</div><div class="pron">/ɓ/ b</div><div class="cn">b</div></div>
+        <div class="card" onclick="speakText('c')"><div class="vn">c</div><div class="pron">/k/ k（南方读g）</div><div class="cn">c</div></div>
+        <div class="card" onclick="speakText('d')"><div class="vn">d</div><div class="pron">/z/（北方） /j/（南方）</div><div class="cn">d</div></div>
+        <div class="card" onclick="speakText('đ')"><div class="vn">đ</div><div class="pron">/ɗ/ d（浊音）</div><div class="cn">đ（特有）</div></div>
+        <div class="card" onclick="speakText('g')"><div class="vn">g</div><div class="pron">/ɣ/ g（南方读/j/）</div><div class="cn">g</div></div>
+        <div class="card" onclick="speakText('h')"><div class="vn">h</div><div class="pron">/h/ h</div><div class="cn">h</div></div>
+        <div class="card" onclick="speakText('k')"><div class="vn">k</div><div class="pron">/k/ k</div><div class="cn">k</div></div>
+        <div class="card" onclick="speakText('l')"><div class="vn">l</div><div class="pron">/l/ l</div><div class="cn">l</div></div>
+        <div class="card" onclick="speakText('m')"><div class="vn">m</div><div class="pron">/m/ m</div><div class="cn">m</div></div>
+        <div class="card" onclick="speakText('n')"><div class="vn">n</div><div class="pron">/n/ n</div><div class="cn">n</div></div>
+        <div class="card" onclick="speakText('p')"><div class="vn">p</div><div class="pron">/p/ p</div><div class="cn">p</div></div>
+        <div class="card" onclick="speakText('q')"><div class="vn">q</div><div class="pron">/kʷ/ kw（只配u）</div><div class="cn">q</div></div>
+        <div class="card" onclick="speakText('r')"><div class="vn">r</div><div class="pron">/r/或/z/（北） /r/（南）</div><div class="cn">r</div></div>
+        <div class="card" onclick="speakText('s')"><div class="vn">s</div><div class="pron">/s/ s</div><div class="cn">s</div></div>
+        <div class="card" onclick="speakText('t')"><div class="vn">t</div><div class="pron">/t/ t</div><div class="cn">t</div></div>
+        <div class="card" onclick="speakText('v')"><div class="vn">v</div><div class="pron">/v/ v（北）/ʋ/（南）</div><div class="cn">v</div></div>
+        <div class="card" onclick="speakText('x')"><div class="vn">x</div><div class="pron">/s/ s（同s）</div><div class="cn">x</div></div>
+      </div>
+      <div class="tip-box">
+        ⚠️ <b>中国学习者注意：</b>越南语的 <b>d</b>（北方读 /z/，南方读 /j/）和 <b>r</b>（北方读 /z/ 或 /r/）是最容易混淆的辅音，需要特别注意区分。
+      </div>
+    </div>
+
+    <div id="tab-tones" class="tab-content">
+      <div class="section-title">🎵 越南语六大声调</div>
+      <div class="info-box">
+        ⚠️ <b>声调是越南语的核心难点！</b>同一个音节，不同声调 = 完全不同的词。必须熟练掌握！
+      </div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('ma')"><div class="vn">ma</div><div class="pron">平声（无符号）</div><div class="cn">鬼 / 但是 / 母亲（看声调）</div></div>
+        <div class="card" onclick="speakText('mà')"><div class="vn">mà</div><div class="pron">玄声（`）</div><div class="cn">但是</div></div>
+        <div class="card" onclick="speakText('mã')"><div class="vn">mã</div><div class="pron">问声（?）</div><div class="cn">马 / 码</div></div>
+        <div class="card" onclick="speakText('má')"><div class="vn">má</div><div class="pron">跌声（~）</div><div class="cn">母亲（北方）</div></div>
+        <div class="card" onclick="speakText('mạ')"><div class="vn">mạ</div><div class="pron">重声（.）</div><div class="cn">稻苗</div></div>
+        <div class="card" onclick="speakText('má')"><div class="vn">má (´)</div><div class="pron">锐声（´）</div><div class="cn">鱼网（南方）</div></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">声调对比练习</div>
+      <table>
+        <tr><th>平声</th><th>玄声 `</th><th>问声 ?</th><th>跌声 ~</th><th>重声 .</th><th>锐声 ´</th><th>意思</th></tr>
+        <tr onclick="speakText('ma')"><td><b>ma</b></td><td>mà</td><td>mã</td><td>má</td><td>mạ</td><td>má</td><td>鬼 / 但 / 码 / 妈 / 稻 / 网</td></tr>
+        <tr onclick="speakText('ba')"><td><b>ba</b></td><td>bà</td><td>bã</td><td>bá</td><td>bạ</td><td>bá</td><td>三 / 奶奶 / 不卫生 / 博 / 属 / 博</td></tr>
+        <tr onclick="speakText('di')"><td><b>di</b></td><td>dì</td><td>dĩ</td><td>dí</td><td>dị</td><td>dí</td><td>去 / 姨妈 / 已 / 逼迫 / 异 / 逼迫</td></tr>
+      </table>
+      <div class="tip-box">
+        💡 <b>记忆口诀（中国学习者适用）：</b><br>
+        平声——平着读；玄声——往下掉；问声——先降后升（像问号）；<br>
+        跌声——往上跳（像波浪号）；重声——短促有力；锐声——高而升。
+      </div>
+    </div>
+
+    <div id="tab-greetings" class="tab-content">
+      <div class="section-title">👋 问候与礼貌用语</div>
+      <div class="info-box">
+        💡 越南语非常注重<b>称谓</b>！根据对方年龄、性别、亲疏关系，要用不同的称呼。不确定时可用 <b>Em</b>（对 younger）或 <b>Anh/Chị</b>（对 older）。
+      </div>
+      <div class="section-title" style="font-size:1.1em">基础问候</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('Xin chào')"><div class="vn">Xin chào</div><div class="pron">/sin tɕaːw/</div><div class="cn">你好（通用）</div></div>
+        <div class="card" onclick="speakText('Chào bạn')"><div class="vn">Chào bạn</div><div class="pron">/tɕaːw ɓaːn/</div><div class="cn">你好，朋友</div></div>
+        <div class="card" onclick="speakText('Chào anh')"><div class="vn">Chào anh</div><div class="pron">/tɕaːw aɲ/</div><div class="cn">你好，哥哥/帅哥</div></div>
+        <div class="card" onclick="speakText('Chào chị')"><div class="vn">Chào chị</div><div class="pron">/tɕaːw tɕiː/</div><div class="cn">你好，姐姐/美女</div></div>
+        <div class="card" onclick="speakText('Chào em')"><div class="vn">Chào em</div><div class="pron">/tɕaːw ɛm/</div><div class="cn">你好，弟弟/妹妹</div></div>
+        <div class="card" onclick="speakText('Chào ông')"><div class="vn">Chào ông</div><div class="pron">/tɕaːw ʔoŋ/</div><div class="cn">你好，爷爷/先生</div></div>
+        <div class="card" onclick="speakText('Chào bà')"><div class="vn">Chào bà</div><div class="pron">/tɕaːw ɓaː/</div><div class="cn">你好，奶奶/女士</div></div>
+        <div class="card" onclick="speakText('Chào cháu')"><div class="vn">Chào cháu</div><div class="pron">/tɕaːw tɕaʊ/</div><div class="cn">你好，孙子/侄子</div></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">时段问候</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('Chào buổi sáng')"><div class="vn">Chào buổi sáng</div><div class="pron">/tɕaːw ɓuəj saŋ/</div><div class="cn">早上好</div></div>
+        <div class="card" onclick="speakText('Chào buổi trưa')"><div class="vn">Chào buổi trưa</div><div class="pron">/tɕaːw ɓuəj tɕɨə/</div><div class="cn">中午好</div></div>
+        <div class="card" onclick="speakText('Chào buổi chiều')"><div class="vn">Chào buổi chiều</div><div class="pron">/tɕaːw ɓuəj tɕiəʊ/</div><div class="cn">下午好</div></div>
+        <div class="card" onclick="speakText('Chào buổi tối')"><div class="vn">Chào buổi tối</div><div class="pron">/tɕaːw ɓuəj toj/</div><div class="cn">晚上好</div></div>
+        <div class="card" onclick="speakText('Chúc ngủ ngon')"><div class="vn">Chúc ngủ ngon</div><div class="pron">/tɕuk ŋu ŋon/</div><div class="cn">晚安</div></div>
+        <div class="card" onclick="speakText('Tạm biệt')"><div class="vn">Tạm biệt</div><div class="pron">/taːm biət/</div><div class="cn">再见（暂时）</div></div>
+        <div class="card" onclick="speakText('Hẹn gặp lại')"><div class="vn">Hẹn gặp lại</div><div class="pron">/hɛn ɣaːp laːi/</div><div class="cn">再见（期待再见面）</div></div>
+        <div class="card" onclick="speakText('Tạm biệt, hẹn gặp lại')"><div class="vn">Tạm biệt, hẹn gặp lại</div><div class="pron">/taːm biət, hɛn ɣaːp laːi/</div><div class="cn">再见，下次见</div></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">感谢与道歉</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('Cảm ơn')"><div class="vn">Cảm ơn</div><div class="pron">/kaːm ʔəːn/</div><div class="cn">谢谢</div></div>
+        <div class="card" onclick="speakText('Cảm ơn bạn')"><div class="vn">Cảm ơn bạn</div><div class="pron">/kaːm ʔəːn ɓaːn/</div><div class="cn">谢谢你</div></div>
+        <div class="card" onclick="speakText('Cảm ơn anh')"><div class="vn">Cảm ơn anh</div><div class="pron">/kaːm ʔəːn aɲ/</div><div class="cn">谢谢哥哥/你</div></div>
+        <div class="card" onclick="speakText('Rất cảm ơn')"><div class="vn">Rất cảm ơn</div><div class="pron">/rəːt kaːm ʔəːn/</div><div class="cn">非常感谢</div></div>
+        <div class="card" onclick="speakText('Không có chi')"><div class="vn">Không có chi</div><div class="pron">/xoŋ ko tɕi/</div><div class="cn">不客气</div></div>
+        <div class="card" onclick="speakText('Xin lỗi')"><div class="vn">Xin lỗi</div><div class="pron">/sin ləːi/</div><div class="cn">对不起</div></div>
+        <div class="card" onclick="speakText('Lỗi em')"><div class="vn">Lỗi em</div><div class="pron">/ləːi ɛm/</div><div class="cn">是我的错</div></div>
+        <div class="card" onclick="speakText('Xin lỗi, tôi không hiểu')"><div class="vn">Xin lỗi, tôi không hiểu</div><div class="pron">/sin ləːi, toi xoŋ hiəʊ/</div><div class="cn">对不起，我不懂</div></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">自我介绍示例</div>
+      <div class="dialogue-box">
+        <div class="dialogue-line dialogue-a"><span class="speaker">A:</span> <span class="vq" onclick="speakText('Xin chào, tôi tên là Minh.')" style="cursor:pointer">Xin chào, tôi tên là Minh.</span> <span class="pp">/sin tɕaːw, toi ten laː min/</span><br><span class="cc">你好，我叫明。</span></div>
+        <div class="dialogue-line dialogue-b"><span class="speaker b">B:</span> <span class="vq" onclick="speakText('Chào Minh, rất vui được gặp bạn.')" style="cursor:pointer">Chào Minh, rất vui được gặp bạn.</span> <span class="pp">/tɕaːw min, rəːt vuːi ɗɨək ɣaːp ɓaːn/</span><br><span class="cc">你好明，很高兴认识你。</span></div>
+        <div class="dialogue-line dialogue-a"><span class="speaker">A:</span> <span class="vq" onclick="speakText('Tôi đến từ Trung Quốc.')" style="cursor:pointer">Tôi đến từ Trung Quốc.</span> <span class="pp">/toi den tɨʔ tɕuŋ kwoːk/</span><br><span class="cc">我来自中国。</span></div>
+        <div class="dialogue-line dialogue-b"><span class="speaker b">B:</span> <span class="vq" onclick="speakText('Tuyệt vời! Bạn nói tiếng Việt có tốt không?')" style="cursor:pointer">Tuyệt vời! Bạn nói tiếng Việt có tốt không?</span> <span class="pp">/tuət vəːi, ɓaːn noːi tiəŋ viət ko toːt xoŋ/</span><br><span class="cc">太棒了！你越南语说得好吗？</span></div>
+      </div>
+    </div>
+
+    <div id="tab-numbers" class="tab-content">
+      <div class="section-title">🔢 数字、时间与日期</div>
+      <div class="section-title" style="font-size:1.1em">基础数字（0-20）</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('không')"><div class="vn">không</div><div class="pron">/xoŋ/</div><div class="cn">0</div></div>
+        <div class="card" onclick="speakText('một')"><div class="vn">một</div><div class="pron">/moːt/</div><div class="cn">1</div></div>
+        <div class="card" onclick="speakText('hai')"><div class="vn">hai</div><div class="pron">/haːi/</div><div class="cn">2</div></div>
+        <div class="card" onclick="speakText('ba')"><div class="vn">ba</div><div class="pron">/ɓaː/</div><div class="cn">3</div></div>
+        <div class="card" onclick="speakText('bốn')"><div class="vn">bốn</div><div class="pron">/ɓoːn/</div><div class="cn">4</div></div>
+        <div class="card" onclick="speakText('năm')"><div class="vn">năm</div><div class="pron">/naːm/</div><div class="cn">5</div></div>
+        <div class="card" onclick="speakText('sáu')"><div class="vn">sáu</div><div class="pron">/ʂaʊ/</div><div class="cn">6</div></div>
+        <div class="card" onclick="speakText('bảy')"><div class="vn">bảy</div><div class="pron">/ɓaːi/</div><div class="cn">7</div></div>
+        <div class="card" onclick="speakText('tám')"><div class="vn">tám</div><div class="pron">/taːm/</div><div class="cn">8</div></div>
+        <div class="card" onclick="speakText('chín')"><div class="vn">chín</div><div class="pron">/tɕin/</div><div class="cn">9</div></div>
+        <div class="card" onclick="speakText('mười')"><div class="vn">mười</div><div class="pron">/mɨəi/</div><div class="cn">10</div></div>
+        <div class="card" onclick="speakText('mười một')"><div class="vn">mười một</div><div class="pron">/mɨəi moːt/</div><div class="cn">11</div></div>
+        <div class="card" onclick="speakText('mười hai')"><div class="vn">mười hai</div><div class="pron">/mɨəi haːi/</div><div class="cn">12</div></div>
+        <div class="card" onclick="speakText('hai mươi')"><div class="vn">hai mươi</div><div class="pron">/haːi mɨəi/</div><div class="cn">20</div></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">大数字</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('ba mươi')"><div class="vn">ba mươi</div><div class="pron">/ɓaː mɨəi/</div><div class="cn">30</div></div>
+        <div class="card" onclick="speakText('bốn mươi')"><div class="vn">bốn mươi</div><div class="pron">/ɓoːn mɨəi/</div><div class="cn">40</div></div>
+        <div class="card" onclick="speakText('năm mươi')"><div class="vn">năm mươi</div><div class="pron">/naːm mɨəi/</div><div class="cn">50</div></div>
+        <div class="card" onclick="speakText('một trăm')"><div class="vn">một trăm</div><div class="pron">/moːt tɕəːm/</div><div class="cn">100</div></div>
+        <div class="card" onclick="speakText('một nghìn')"><div class="vn">một nghìn</div><div class="pron">/moːt ŋiːn/</div><div class="cn">1000</div></div>
+        <div class="card" onclick="speakText('một triệu')"><div class="vn">một triệu</div><div class="pron">/moːt tɕiəʊ/</div><div class="cn">1百万</div></div>
+        <div class="card" onclick="speakText('một tỷ')"><div class="vn">một tỷ</div><div class="pron">/moːt tiː/</div><div class="cn">10亿</div></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">时间表达</div>
+      <table>
+        <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+        <tr onclick="speakText('mấy giờ')"><td><b>mấy giờ</b></td><td>/meː ɣəː/</td><td>几点？</td></tr>
+        <tr onclick="speakText('một giờ')"><td><b>một giờ</b></td><td>/moːt ɣəː/</td><td>1点</td></tr>
+        <tr onclick="speakText('hai giờ')"><td><b>hai giờ</b></td><td>/haːi ɣəː/</td><td>2点</td></tr>
+        <tr onclick="speakText('mười hai giờ')"><td><b>mười hai giờ</b></td><td>/mɨəi haːi ɣəː/</td><td>12点</td></tr>
+        <tr onclick="speakText('mười hai giờ đêm')"><td><b>mười hai giờ đêm</b></td><td>/mɨəi haːi ɣəː deːm/</td><td>半夜12点</td></tr>
+        <tr onclick="speakText('sáng')"><td><b>sáng</b></td><td>/ʂaːŋ/</td><td>早上</td></tr>
+        <tr onclick="speakText('chiều')"><td><b>chiều</b></td><td>/tɕiəʊ/</td><td>下午</td></tr>
+        <tr onclick="speakText('tối')"><td><b>tối</b></td><td>/toj/</td><td>晚上</td></tr>
+      </table>
+      <div class="section-title" style="font-size:1.1em">星期与日期</div>
+      <table>
+        <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+        <tr onclick="speakText('thứ hai')"><td><b>thứ hai</b></td><td>/tʰuː haːi/</td><td>星期一</td></tr>
+        <tr onclick="speakText('thứ ba')"><td><b>thứ ba</b></td><td>/tʰuː ɓaː/</td><td>星期二</td></tr>
+        <tr onclick="speakText('thứ tư')"><td><b>thứ tư</b></td><td>/tʰuː tɨː/</td><td>星期三</td></tr>
+        <tr onclick="speakText('thứ năm')"><td><b>thứ năm</b></td><td>/tʰuː naːm/</td><td>星期四</td></tr>
+        <tr onclick="speakText('thứ sáu')"><td><b>thứ sáu</b></td><td>/tʰuː ʂaʊ/</td><td>星期五</td></tr>
+        <tr onclick="speakText('thứ bảy')"><td><b>thứ bảy</b></td><td>/tʰuː ɓaːi/</td><td>星期六</td></tr>
+        <tr onclick="speakText('chủ nhật')"><td><b>chủ nhật</b></td><td>/tɕuː ɲəːt/</td><td>星期日</td></tr>
+        <tr onclick="speakText('hôm nay')"><td><b>hôm nay</b></td><td>/hoːm nai/</td><td>今天</td></tr>
+        <tr onclick="speakText('hôm qua')"><td><b>hôm qua</b></td><td>/hoːm kwaː/</td><td>昨天</td></tr>
+        <tr onclick="speakText('ngày mai')"><td><b>ngày mai</b></td><td>/ŋaːi mai/</td><td>明天</td></tr>
+        <tr onclick="speakText('tháng')"><td><b>tháng</b></td><td>/tʰaŋ/</td><td>月份</td></tr>
+      </table>
+      <div class="section-title" style="font-size:1.1em">月份</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('tháng một')"><div class="vn">tháng một</div><div class="pron">/tʰaŋ moːt/</div><div class="cn">一月</div></div>
+        <div class="card" onclick="speakText('tháng hai')"><div class="vn">tháng hai</div><div class="pron">/tʰaŋ haːi/</div><div class="cn">二月</div></div>
+        <div class="card" onclick="speakText('tháng ba')"><div class="vn">tháng ba</div><div class="pron">/tʰaŋ ɓaː/</div><div class="cn">三月</div></div>
+        <div class="card" onclick="speakText('tháng tư')"><div class="vn">tháng tư</div><div class="pron">/tʰaŋ tɨː/</div><div class="cn">四月</div></div>
+        <div class="card" onclick="speakText('tháng năm')"><div class="vn">tháng năm</div><div class="pron">/tʰaŋ naːm/</div><div class="cn">五月</div></div>
+        <div class="card" onclick="speakText('tháng sáu')"><div class="vn">tháng sáu</div><div class="pron">/tʰaŋ ʂaʊ/</div><div class="cn">六月</div></div>
+        <div class="card" onclick="speakText('tháng bảy')"><div class="vn">tháng bảy</div><div class="pron">/tʰaŋ ɓaːi/</div><div class="cn">七月</div></div>
+        <div class="card" onclick="speakText('tháng tám')"><div class="vn">tháng tám</div><div class="pron">/tʰaŋ taːm/</div><div class="cn">八月</div></div>
+        <div class="card" onclick="speakText('tháng chín')"><div class="vn">tháng chín</div><div class="pron">/tʰaŋ tɕin/</div><div class="cn">九月</div></div>
+        <div class="card" onclick="speakText('tháng mười')"><div class="vn">tháng mười</div><div class="pron">/tʰaŋ mɨəi/</div><div class="cn">十月</div></div>
+        <div class="card" onclick="speakText('tháng mười một')"><div class="vn">tháng mười một</div><div class="pron">/tʰaŋ mɨəi moːt/</div><div class="cn">十一月</div></div>
+        <div class="card" onclick="speakText('tháng mười hai')"><div class="vn">tháng mười hai</div><div class="pron">/tʰaŋ mɨəi haːi/</div><div class="cn">十二月</div></div>
+      </div>
+    </div>
+
+    <div id="tab-vocabulary" class="tab-content">
+      <div class="section-title">📦 主题词汇</div>
+      <div class="sub-tabs">
+        <div class="sub-tab active" onclick="switchSubTab('voc-pronouns', this)">人称</div>
+        <div class="sub-tab" onclick="switchSubTab('voc-food', this)">食物</div>
+        <div class="sub-tab" onclick="switchSubTab('voc-transport', this)">交通</div>
+        <div class="sub-tab" onclick="switchSubTab('voc-colors', this)">颜色</div>
+        <div class="sub-tab" onclick="switchSubTab('voc-body', this)">身体</div>
+        <div class="sub-tab" onclick="switchSubTab('voc-weather', this)">天气</div>
+        <div class="sub-tab" onclick="switchSubTab('voc-direction', this)">方向</div>
+        <div class="sub-tab" onclick="switchSubTab('voc-daily', this)">日常</div>
+        <div class="sub-tab" onclick="switchSubTab('voc-work', this)">工作</div>
+        <div class="sub-tab" onclick="switchSubTab('voc-feelings', this)">感受</div>
+      </div>
+            <div id="voc-pronouns" class="sub-content">
+        <div class="section-title" style="font-size:1.1em">👤 人称代词与家人</div>
+        <div class="info-box" style="background:#dbeafe; border-color:#1e3a8a; margin-bottom:16px">
+          <b>💡 越南语人称特点：</b><br>
+          ✅ 根据<b>年龄和辈分</b>选择不同的人称<br>
+          ✅ 对同辈用"bạn"，对年长用"anh/chị"，对年幼用"em"<br>
+          ✅ 对长辈用"ông/bà"，非常讲究礼貌
+        </div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('tôi')"><div class="vn">tôi</div><div class="pron">/toi/</div><div class="cn">我（通用）</div></div>
+          <div class="card" onclick="speakText('tớ')"><div class="vn">tớ</div><div class="pron">/toː/</div><div class="cn">我（口语）</div></div>
+          <div class="card" onclick="speakText('mình')"><div class="vn">mình</div><div class="pron">/miŋ/</div><div class="cn">我（亲密）</div></div>
+          <div class="card" onclick="speakText('bạn')"><div class="vn">bạn</div><div class="pron">/ɓaːn/</div><div class="cn">你（同辈）</div></div>
+          <div class="card" onclick="speakText('cậu')"><div class="vn">cậu</div><div class="pron">/kəʊ/</div><div class="cn">你（口语）</div></div>
+          <div class="card" onclick="speakText('anh')"><div class="vn">anh</div><div class="pron">/aɲ/</div><div class="cn">哥哥/你（男）</div></div>
+          <div class="card" onclick="speakText('chị')"><div class="vn">chị</div><div class="pron">/tɕiː/</div><div class="cn">姐姐/你（女）</div></div>
+          <div class="card" onclick="speakText('em')"><div class="vn">em</div><div class="pron">/ɛm/</div><div class="cn">弟妹/你（年幼）</div></div>
+          <div class="card" onclick="speakText('cô')"><div class="vn">cô</div><div class="pron">/koː/</div><div class="cn">阿姨/姑姑</div></div>
+          <div class="card" onclick="speakText('chú')"><div class="vn">chú</div><div class="pron">/tɕuː/</div><div class="cn">叔叔/舅舅</div></div>
+          <div class="card" onclick="speakText('ông')"><div class="vn">ông</div><div class="pron">/oŋ/</div><div class="cn">爷爷/老先生</div></div>
+          <div class="card" onclick="speakText('bà')"><div class="vn">bà</div><div class="pron">/baː/</div><div class="cn">奶奶/老太太</div></div>
+          <div class="card" onclick="speakText('nó')"><div class="vn">nó</div><div class="pron">/noː/</div><div class="cn">他/她/它</div></div>
+          <div class="card" onclick="speakText('họ')"><div class="vn">họ</div><div class="pron">/hoː/</div><div class="cn">他们</div></div>
+          <div class="card" onclick="speakText('chúng tôi')"><div class="vn">chúng tôi</div><div class="pron">/tɕuŋ toi/</div><div class="cn">我们</div></div>
+          <div class="card" onclick="speakText('các bạn')"><div class="vn">các bạn</div><div class="pron">/kak ɓaːn/</div><div class="cn">你们</div></div>
+        </div>
+        <div class="section-title" style="font-size:1.1em; margin-top:20px">👨‍👩‍👧‍👦 家庭成员</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('bố')"><div class="vn">bố</div><div class="pron">/ɓoː/</div><div class="cn">爸爸（北方）</div></div>
+          <div class="card" onclick="speakText('ba')"><div class="vn">ba</div><div class="pron">/baː/</div><div class="cn">爸爸（南方）</div></div>
+          <div class="card" onclick="speakText('mẹ')"><div class="vn">mẹ</div><div class="pron">/meː/</div><div class="cn">妈妈</div></div>
+          <div class="card" onclick="speakText('má')"><div class="vn">má</div><div class="pron">/maː/</div><div class="cn">妈妈（南方）</div></div>
+          <div class="card" onclick="speakText('ông nội')"><div class="vn">ông nội</div><div class="pron">/oŋ noi/</div><div class="cn">爷爷（父方）</div></div>
+          <div class="card" onclick="speakText('bà nội')"><div class="vn">bà nội</div><div class="pron">/baː noi/</div><div class="cn">奶奶（父方）</div></div>
+          <div class="card" onclick="speakText('ông ngoại')"><div class="vn">ông ngoại</div><div class="pron">/oŋ ŋwaːi/</div><div class="cn">外公（母方）</div></div>
+          <div class="card" onclick="speakText('bà ngoại')"><div class="vn">bà ngoại</div><div class="pron">/baː ŋwaːi/</div><div class="cn">外婆（母方）</div></div>
+          <div class="card" onclick="speakText('anh trai')"><div class="vn">anh trai</div><div class="pron">/aɲ tɕai/</div><div class="cn">哥哥</div></div>
+          <div class="card" onclick="speakText('chị gái')"><div class="vn">chị gái</div><div class="pron">/tɕiː ɣaːi/</div><div class="cn">姐姐</div></div>
+          <div class="card" onclick="speakText('em trai')"><div class="vn">em trai</div><div class="pron">/ɛm tɕai/</div><div class="cn">弟弟</div></div>
+          <div class="card" onclick="speakText('em gái')"><div class="vn">em gái</div><div class="pron">/ɛm ɣaːi/</div><div class="cn">妹妹</div></div>
+          <div class="card" onclick="speakText('con trai')"><div class="vn">con trai</div><div class="pron">/kon tɕai/</div><div class="cn">儿子</div></div>
+          <div class="card" onclick="speakText('con gái')"><div class="vn">con gái</div><div class="pron">/kon ɣaːi/</div><div class="cn">女儿</div></div>
+          <div class="card" onclick="speakText('con')"><div class="vn">con</div><div class="pron">/kon/</div><div class="cn">孩子/我（对父母）</div></div>
+          <div class="card" onclick="speakText('cháu')"><div class="vn">cháu</div><div class="pron">/tɕaʊ/</div><div class="cn">孙子/侄女</div></div>
+        </div>
+        <div class="section-title" style="font-size:1.1em; margin-top:20px">👫 朋友与关系</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('bạn bè')"><div class="vn">bạn bè</div><div class="pron">/ɓaːn ɓɛː/</div><div class="cn">朋友（统称）</div></div>
+          <div class="card" onclick="speakText('bạn thân')"><div class="vn">bạn thân</div><div class="pron">/ɓaːn tʰən/</div><div class="cn">好朋友/挚友</div></div>
+          <div class="card" onclick="speakText('ngườ yêu')"><div class="vn">ngườ yêu</div><div class="pron">/ŋɨə iəw/</div><div class="cn">恋人</div></div>
+          <div class="card" onclick="speakText('bạn trai')"><div class="vn">bạn trai</div><div class="pron">/ɓaːn tɕai/</div><div class="cn">男朋友</div></div>
+          <div class="card" onclick="speakText('bạn gái')"><div class="vn">bạn gái</div><div class="pron">/ɓaːn ɣaːi/</div><div class="cn">女朋友</div></div>
+          <div class="card" onclick="speakText('chồng')"><div class="vn">chồng</div><div class="pron">/tɕoŋ/</div><div class="cn">丈夫</div></div>
+          <div class="card" onclick="speakText('vợ')"><div class="vn">vợ</div><div class="pron">/vəː/</div><div class="cn">妻子</div></div>
+          <div class="card" onclick="speakText('đồng nghiệp')"><div class="vn">đồng nghiệp</div><div class="pron">/ɗoŋ ŋiəp/</div><div class="cn">同事</div></div>
+          <div class="card" onclick="speakText('hàng xóm')"><div class="vn">hàng xóm</div><div class="pron">/haːŋ som/</div><div class="cn">邻居</div></div>
+          <div class="card" onclick="speakText('bạn học')"><div class="vn">bạn học</div><div class="pron">/ɓaːn hɔːk/</div><div class="cn">同学</div></div>
+          <div class="card" onclick="speakText('tri kỷ')"><div class="vn">tri kỷ</div><div class="pron">/tɕi kiː/</div><div class="cn">知己</div></div>
+          <div class="card" onclick="speakText('bạn đời')"><div class="vn">bạn đời</div><div class="pron">/ɓaːn ɗɔi/</div><div class="cn">伴侣</div></div>
+        </div>
+      </div>      <div id="voc-food" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">🍜 食物与饮料</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('cơm')"><div class="vn">cơm</div><div class="pron">/kəːm/</div><div class="cn">米饭</div></div>
+          <div class="card" onclick="speakText('phở')"><div class="vn">phở</div><div class="pron">/fəː/</div><div class="cn">河粉</div></div>
+          <div class="card" onclick="speakText('bánh mì')"><div class="vn">bánh mì</div><div class="pron">/ɓaːŋ miː/</div><div class="cn">面包</div></div>
+          <div class="card" onclick="speakText('bún')"><div class="vn">bún</div><div class="pron">/ɓun/</div><div class="cn">米粉</div></div>
+          <div class="card" onclick="speakText('gà')"><div class="vn">gà</div><div class="pron">/ɣaː/</div><div class="cn">鸡肉</div></div>
+          <div class="card" onclick="speakText('bò')"><div class="vn">bò</div><div class="pron">/ɓoː/</div><div class="cn">牛肉</div></div>
+          <div class="card" onclick="speakText('cá')"><div class="vn">cá</div><div class="pron">/kaː/</div><div class="cn">鱼</div></div>
+          <div class="card" onclick="speakText('rau')"><div class="vn">rau</div><div class="pron">/raʊ/</div><div class="cn">蔬菜</div></div>
+          <div class="card" onclick="speakText('nước')"><div class="vn">nước</div><div class="pron">/nɨək/</div><div class="cn">水/汁</div></div>
+          <div class="card" onclick="speakText('trà')"><div class="vn">trà</div><div class="pron">/tɕaː/</div><div class="cn">茶</div></div>
+          <div class="card" onclick="speakText('cà phê')"><div class="vn">cà phê</div><div class="pron">/kaː feː/</div><div class="cn">咖啡</div></div>
+          <div class="card" onclick="speakText('bia')"><div class="vn">bia</div><div class="pron">/ɓiə/</div><div class="cn">啤酒</div></div>
+          <div class="card" onclick="speakText('cháo')"><div class="vn">cháo</div><div class="pron">/tɕaʊ/</div><div class="cn">粥</div></div>
+          <div class="card" onclick="speakText('trứng')"><div class="vn">trứng</div><div class="pron">/tɕɨŋ/</div><div class="cn">鸡蛋</div></div>
+          <div class="card" onclick="speakText('sữa')"><div class="vn">sữa</div><div class="pron">/sɨə/</div><div class="cn">牛奶</div></div>
+          <div class="card" onclick="speakText('tôm')"><div class="vn">tôm</div><div class="pron">/toːm/</div><div class="cn">虾</div></div>
+          <div class="card" onclick="speakText('mực')"><div class="vn">mực</div><div class="pron">/mɨk/</div><div class="cn">鱿鱼</div></div>
+          <div class="card" onclick="speakText('chả')"><div class="vn">chả</div><div class="pron">/tɕaː/</div><div class="cn">肉丸/炸肉</div></div>
+          <div class="card" onclick="speakText('bánh')"><div class="vn">bánh</div><div class="pron">/ɓaːɲ/</div><div class="cn">糕点/饼</div></div>
+          <div class="card" onclick="speakText('hoa quả')"><div class="vn">hoa quả</div><div class="pron">/hwaː kwaː/</div><div class="cn">水果</div></div>
+        </div>
+      </div>      <div id="voc-transport" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">🚌 交通出行</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('xe buýt')"><div class="vn">xe buýt</div><div class="pron">/se ɓuːit/</div><div class="cn">公交车</div></div>
+          <div class="card" onclick="speakText('xe taxi')"><div class="vn">xe taxi</div><div class="pron">/se taksi/</div><div class="cn">出租车</div></div>
+          <div class="card" onclick="speakText('xe máy')"><div class="vn">xe máy</div><div class="pron">/se maːi/</div><div class="cn">摩托车</div></div>
+          <div class="card" onclick="speakText('xe đạp')"><div class="vn">xe đạp</div><div class="pron">/se ɗaːp/</div><div class="cn">自行车</div></div>
+          <div class="card" onclick="speakText('máy bay')"><div class="vn">máy bay</div><div class="pron">/maːi ɓai/</div><div class="cn">飞机</div></div>
+          <div class="card" onclick="speakText('tàu hỏa')"><div class="vn">tàu hỏa</div><div class="pron">/taʊ hɔːa/</div><div class="cn">火车</div></div>
+          <div class="card" onclick="speakText('tàu thủy')"><div class="vn">tàu thủy</div><div class="pron">/taʊ tʰwiː/</div><div class="cn">轮船</div></div>
+          <div class="card" onclick="speakText('ga')"><div class="vn">ga</div><div class="pron">/gaː/</div><div class="cn">车站</div></div>
+          <div class="card" onclick="speakText('sân bay')"><div class="vn">sân bay</div><div class="pron">/ʂəːn ɓai/</div><div class="cn">机场</div></div>
+          <div class="card" onclick="speakText('bến xe')"><div class="vn">bến xe</div><div class="pron">/ɓen se/</div><div class="cn">汽车站</div></div>
+          <div class="card" onclick="speakText('cảng')"><div class="vn">cảng</div><div class="pron">/kaːŋ/</div><div class="cn">港口</div></div>
+          <div class="card" onclick="speakText('đường')"><div class="vn">đường</div><div class="pron">/ɗɨəŋ/</div><div class="cn">道路</div></div>
+          <div class="card" onclick="speakText('cầu')"><div class="vn">cầu</div><div class="pron">/kəʊ/</div><div class="cn">桥</div></div>
+          <div class="card" onclick="speakText('đèn giao thông')"><div class="vn">đèn giao thông</div><div class="pron">/ɗen zaʊ tʰoŋ/</div><div class="cn">红绿灯</div></div>
+          <div class="card" onclick="speakText('vé')"><div class="vn">vé</div><div class="pron">/veː/</div><div class="cn">票</div></div>
+          <div class="card" onclick="speakText('tài xế')"><div class="vn">tài xế</div><div class="pron">/taːi seː/</div><div class="cn">司机</div></div>
+        </div>
+      </div>      <div id="voc-colors" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">🎨 颜色</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('đỏ')"><div class="vn">đỏ</div><div class="pron">/ɗoː/</div><div class="cn">红色</div></div>
+          <div class="card" onclick="speakText('xanh')"><div class="vn">xanh</div><div class="pron">/saːŋ/</div><div class="cn">蓝色/绿色</div></div>
+          <div class="card" onclick="speakText('xanh dương')"><div class="vn">xanh dương</div><div class="pron">/saːŋ zɨəŋ/</div><div class="cn">蓝色</div></div>
+          <div class="card" onclick="speakText('xanh lá')"><div class="vn">xanh lá</div><div class="pron">/saːŋ laː/</div><div class="cn">绿色</div></div>
+          <div class="card" onclick="speakText('vàng')"><div class="vn">vàng</div><div class="pron">/vaːŋ/</div><div class="cn">黄色</div></div>
+          <div class="card" onclick="speakText('trắng')"><div class="vn">trắng</div><div class="pron">/tɕaːŋ/</div><div class="cn">白色</div></div>
+          <div class="card" onclick="speakText('đen')"><div class="vn">đen</div><div class="pron">/ɗen/</div><div class="cn">黑色</div></div>
+          <div class="card" onclick="speakText('tím')"><div class="vn">tím</div><div class="pron">/tiːm/</div><div class="cn">紫色</div></div>
+          <div class="card" onclick="speakText('hồng')"><div class="vn">hồng</div><div class="pron">/hoŋ/</div><div class="cn">粉色</div></div>
+          <div class="card" onclick="speakText('nâu')"><div class="vn">nâu</div><div class="pron">/naʊ/</div><div class="cn">棕色</div></div>
+          <div class="card" onclick="speakText('cam')"><div class="vn">cam</div><div class="pron">/kam/</div><div class="cn">橙色</div></div>
+          <div class="card" onclick="speakText('xám')"><div class="vn">xám</div><div class="pron">/saːm/</div><div class="cn">灰色</div></div>
+          <div class="card" onclick="speakText('bạc')"><div class="vn">bạc</div><div class="pron">/ɓaːk/</div><div class="cn">银色</div></div>
+          <div class="card" onclick="speakText('vàng kim')"><div class="vn">vàng kim</div><div class="pron">/vaːŋ kim/</div><div class="cn">金色</div></div>
+        </div>
+      </div>      <div id="voc-body" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">🫀 身体部位</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('đầu')"><div class="vn">đầu</div><div class="pron">/ɗəʊ/</div><div class="cn">头</div></div>
+          <div class="card" onclick="speakText('mắt')"><div class="vn">mắt</div><div class="pron">/maːt/</div><div class="cn">眼睛</div></div>
+          <div class="card" onclick="speakText('mũi')"><div class="vn">mũi</div><div class="pron">/muːi/</div><div class="cn">鼻子</div></div>
+          <div class="card" onclick="speakText('miệng')"><div class="vn">miệng</div><div class="pron">/miəŋ/</div><div class="cn">嘴巴</div></div>
+          <div class="card" onclick="speakText('tai')"><div class="vn">tai</div><div class="pron">/tai/</div><div class="cn">耳朵</div></div>
+          <div class="card" onclick="speakText('tóc')"><div class="vn">tóc</div><div class="pron">/tɔːk/</div><div class="cn">头发</div></div>
+          <div class="card" onclick="speakText('tay')"><div class="vn">tay</div><div class="pron">/tai/</div><div class="cn">手</div></div>
+          <div class="card" onclick="speakText('chân')"><div class="vn">chân</div><div class="pron">/tɕəːn/</div><div class="cn">脚/腿</div></div>
+          <div class="card" onclick="speakText('ngón tay')"><div class="vn">ngón tay</div><div class="pron">/ŋoːn tai/</div><div class="cn">手指</div></div>
+          <div class="card" onclick="speakText('bụng')"><div class="vn">bụng</div><div class="pron">/ɓuŋ/</div><div class="cn">肚子</div></div>
+          <div class="card" onclick="speakText('lưng')"><div class="vn">lưng</div><div class="pron">/lɨŋ/</div><div class="cn">背</div></div>
+          <div class="card" onclick="speakText('tim')"><div class="vn">tim</div><div class="pron">/tim/</div><div class="cn">心脏</div></div>
+          <div class="card" onclick="speakText('môi')"><div class="vn">môi</div><div class="pron">/moi/</div><div class="cn">嘴唇</div></div>
+          <div class="card" onclick="speakText('răng')"><div class="vn">răng</div><div class="pron">/raːŋ/</div><div class="cn">牙齿</div></div>
+          <div class="card" onclick="speakText('cổ')"><div class="vn">cổ</div><div class="pron">/koː/</div><div class="cn">脖子</div></div>
+          <div class="card" onclick="speakText('vai')"><div class="vn">vai</div><div class="pron">/vai/</div><div class="cn">肩膀</div></div>
+        </div>
+      </div>      <div id="voc-weather" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">☀️ 天气</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('nắng')"><div class="vn">nắng</div><div class="pron">/naːŋ/</div><div class="cn">晴天</div></div>
+          <div class="card" onclick="speakText('mưa')"><div class="vn">mưa</div><div class="pron">/mɨə/</div><div class="cn">下雨</div></div>
+          <div class="card" onclick="speakText('mây')"><div class="vn">mây</div><div class="pron">/məi/</div><div class="cn">多云</div></div>
+          <div class="card" onclick="speakText('nóng')"><div class="vn">nóng</div><div class="pron">/noŋ/</div><div class="cn">热</div></div>
+          <div class="card" onclick="speakText('lạnh')"><div class="vn">lạnh</div><div class="pron">/laɲ/</div><div class="cn">冷</div></div>
+          <div class="card" onclick="speakText('gió')"><div class="vn">gió</div><div class="pron">/ʑoː/</div><div class="cn">风</div></div>
+          <div class="card" onclick="speakText('bão')"><div class="vn">bão</div><div class="pron">/ɓaːw/</div><div class="cn">台风/暴风雨</div></div>
+          <div class="card" onclick="speakText('tuyết')"><div class="vn">tuyết</div><div class="pron">/twiət/</div><div class="cn">雪</div></div>
+          <div class="card" onclick="speakText('sương mù')"><div class="vn">sương mù</div><div class="pron">/sɨəŋ muː/</div><div class="cn">雾</div></div>
+          <div class="card" onclick="speakText('ẩm')"><div class="vn">ẩm</div><div class="pron">/əːm/</div><div class="cn">潮湿</div></div>
+          <div class="card" onclick="speakText('khô')"><div class="vn">khô</div><div class="pron">/xoː/</div><div class="cn">干燥</div></div>
+          <div class="card" onclick="speakText('nhiệt độ')"><div class="vn">nhiệt độ</div><div class="pron">/ɲiət ɗoː/</div><div class="cn">温度</div></div>
+        </div>
+      </div>      <div id="voc-direction" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">🧭 方向与位置</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('trái')"><div class="vn">trái</div><div class="pron">/tɕaːi/</div><div class="cn">左</div></div>
+          <div class="card" onclick="speakText('phải')"><div class="vn">phải</div><div class="pron">/faːi/</div><div class="cn">右</div></div>
+          <div class="card" onclick="speakText('trước')"><div class="vn">trước</div><div class="pron">/tɕɨək/</div><div class="cn">前</div></div>
+          <div class="card" onclick="speakText('sau')"><div class="vn">sau</div><div class="pron">/ʂaʊ/</div><div class="cn">后</div></div>
+          <div class="card" onclick="speakText('trên')"><div class="vn">trên</div><div class="pron">/tɕəːn/</div><div class="cn">上</div></div>
+          <div class="card" onclick="speakText('dưới')"><div class="vn">dưới</div><div class="pron">/dɨəi/</div><div class="cn">下</div></div>
+          <div class="card" onclick="speakText('gần')"><div class="vn">gần</div><div class="pron">/ɣəːn/</div><div class="cn">近</div></div>
+          <div class="card" onclick="speakText('xa')"><div class="vn">xa</div><div class="pron">/saː/</div><div class="cn">远</div></div>
+          <div class="card" onclick="speakText('trong')"><div class="vn">trong</div><div class="pron">/tɕoŋ/</div><div class="cn">里面</div></div>
+          <div class="card" onclick="speakText('ngoài')"><div class="vn">ngoài</div><div class="pron">/ŋwaːi/</div><div class="cn">外面</div></div>
+          <div class="card" onclick="speakText('bên cạnh')"><div class="vn">bên cạnh</div><div class="pron">/ɓen kan/</div><div class="cn">旁边</div></div>
+          <div class="card" onclick="speakText('đối diện')"><div class="vn">đối diện</div><div class="pron">/ɗoi diən/</div><div class="cn">对面</div></div>
+          <div class="card" onclick="speakText('giữa')"><div class="vn">giữa</div><div class="pron">/ɟɨə/</div><div class="cn">中间</div></div>
+          <div class="card" onclick="speakText('đông')"><div class="vn">đông</div><div class="pron">/ɗoŋ/</div><div class="cn">东</div></div>
+          <div class="card" onclick="speakText('tây')"><div class="vn">tây</div><div class="pron">/təi/</div><div class="cn">西</div></div>
+          <div class="card" onclick="speakText('nam')"><div class="vn">nam</div><div class="pron">/naːm/</div><div class="cn">南</div></div>
+          <div class="card" onclick="speakText('bắc')"><div class="vn">bắc</div><div class="pron">/ɓaːk/</div><div class="cn">北</div></div>
+        </div>
+      </div>      <div id="voc-daily" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">🏠 日常用品</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('nhà')"><div class="vn">nhà</div><div class="pron">/ɲaː/</div><div class="cn">家/房子</div></div>
+          <div class="card" onclick="speakText('cửa')"><div class="vn">cửa</div><div class="pron">/kɨə/</div><div class="cn">门</div></div>
+          <div class="card" onclick="speakText('bàn')"><div class="vn">bàn</div><div class="pron">/ɓaːn/</div><div class="cn">桌子</div></div>
+          <div class="card" onclick="speakText('ghế')"><div class="vn">ghế</div><div class="pron">/ɣeː/</div><div class="cn">椅子</div></div>
+          <div class="card" onclick="speakText('giường')"><div class="vn">giường</div><div class="pron">/ɟɨəŋ/</div><div class="cn">床</div></div>
+          <div class="card" onclick="speakText('quần áo')"><div class="vn">quần áo</div><div class="pron">/kwaːn aːw/</div><div class="cn">衣服</div></div>
+          <div class="card" onclick="speakText('điện thoại')"><div class="vn">điện thoại</div><div class="pron">/diə̯n tʰwaːi/</div><div class="cn">手机</div></div>
+          <div class="card" onclick="speakText('máy tính')"><div class="vn">máy tính</div><div class="pron">/maːi tiŋ/</div><div class="cn">电脑</div></div>
+          <div class="card" onclick="speakText('ti vi')"><div class="vn">ti vi</div><div class="pron">/ti viː/</div><div class="cn">电视</div></div>
+          <div class="card" onclick="speakText('tủ lạnh')"><div class="vn">tủ lạnh</div><div class="pron">/tuː laɲ/</div><div class="cn">冰箱</div></div>
+          <div class="card" onclick="speakText('điều hòa')"><div class="vn">điều hòa</div><div class="pron">/ɗiəw hwaː/</div><div class="cn">空调</div></div>
+          <div class="card" onclick="speakText('gương')"><div class="vn">gương</div><div class="pron">/ɣɨəŋ/</div><div class="cn">镜子</div></div>
+          <div class="card" onclick="speakText('đèn')"><div class="vn">đèn</div><div class="pron">/ɗen/</div><div class="cn">灯</div></div>
+          <div class="card" onclick="speakText('sách')"><div class="vn">sách</div><div class="pron">/saːk/</div><div class="cn">书</div></div>
+          <div class="card" onclick="speakText('ví')"><div class="vn">ví</div><div class="pron">/viː/</div><div class="cn">钱包</div></div>
+          <div class="card" onclick="speakText('ô')"><div class="vn">ô</div><div class="pron">/oː/</div><div class="cn">雨伞</div></div>
+        </div>
+      </div>      <div id="voc-work" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">💼 工作与职业</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('công việc')"><div class="vn">công việc</div><div class="pron">/koŋ viək/</div><div class="cn">工作</div></div>
+          <div class="card" onclick="speakText('văn phòng')"><div class="vn">văn phòng</div><div class="pron">/vaːn fɔŋ/</div><div class="cn">办公室</div></div>
+          <div class="card" onclick="speakText('nhân viên')"><div class="vn">nhân viên</div><div class="pron">/ɲən viən/</div><div class="cn">员工</div></div>
+          <div class="card" onclick="speakText('sếp')"><div class="vn">sếp</div><div class="pron">/seːp/</div><div class="cn">老板</div></div>
+          <div class="card" onclick="speakText('lương')"><div class="vn">lương</div><div class="pron">/lɨəŋ/</div><div class="cn">工资</div></div>
+          <div class="card" onclick="speakText('họp')"><div class="vn">họp</div><div class="pron">/hoːp/</div><div class="cn">开会</div></div>
+          <div class="card" onclick="speakText('bác sĩ')"><div class="vn">bác sĩ</div><div class="pron">/ɓaːk ʂiː/</div><div class="cn">医生</div></div>
+          <div class="card" onclick="speakText('giáo viên')"><div class="vn">giáo viên</div><div class="pron">/zaːw viən/</div><div class="cn">老师</div></div>
+          <div class="card" onclick="speakText('kỹ sư')"><div class="vn">kỹ sư</div><div class="pron">/kiː sɨː/</div><div class="cn">工程师</div></div>
+          <div class="card" onclick="speakText('luật sư')"><div class="vn">luật sư</div><div class="pron">/lwət sɨː/</div><div class="cn">律师</div></div>
+          <div class="card" onclick="speakText('cảnh sát')"><div class="vn">cảnh sát</div><div class="pron">/kaːɲ saːt/</div><div class="cn">警察</div></div>
+          <div class="card" onclick="speakText('đầu bếp')"><div class="vn">đầu bếp</div><div class="pron">/ɗəʊ ɓeːp/</div><div class="cn">厨师</div></div>
+          <div class="card" onclick="speakText('tài xế')"><div class="vn">tài xế</div><div class="pron">/taːi seː/</div><div class="cn">司机</div></div>
+          <div class="card" onclick="speakText('nông dân')"><div class="vn">nông dân</div><div class="pron">/noŋ zəːn/</div><div class="cn">农民</div></div>
+          <div class="card" onclick="speakText('sinh viên')"><div class="vn">sinh viên</div><div class="pron">/siɲ viən/</div><div class="cn">大学生</div></div>
+          <div class="card" onclick="speakText('học sinh')"><div class="vn">học sinh</div><div class="pron">/hɔːk siɲ/</div><div class="cn">学生</div></div>
+        </div>
+      </div>      <div id="voc-feelings" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">😊 情绪与感受</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('vui')"><div class="vn">vui</div><div class="pron">/vuːi/</div><div class="cn">开心</div></div>
+          <div class="card" onclick="speakText('buồn')"><div class="vn">buồn</div><div class="pron">/ɓuəːn/</div><div class="cn">难过/无聊</div></div>
+          <div class="card" onclick="speakText('giận')"><div class="vn">giận</div><div class="pron">/zaːn/</div><div class="cn">生气</div></div>
+          <div class="card" onclick="speakText('sợ')"><div class="vn">sợ</div><div class="pron">/ʂəː/</div><div class="cn">害怕</div></div>
+          <div class="card" onclick="speakText('mệt')"><div class="vn">mệt</div><div class="pron">/meːt/</div><div class="cn">累</div></div>
+          <div class="card" onclick="speakText('đói')"><div class="vn">đói</div><div class="pron">/ɗəːi/</div><div class="cn">饿</div></div>
+          <div class="card" onclick="speakText('khỏe')"><div class="vn">khỏe</div><div class="pron">/xweː/</div><div class="cn">健康/强壮</div></div>
+          <div class="card" onclick="speakText('ốm')"><div class="vn">ốm</div><div class="pron">/om/</div><div class="cn">生病</div></div>
+          <div class="card" onclick="speakText('hạnh phúc')"><div class="vn">hạnh phúc</div><div class="pron">/haːɲ fuk/</div><div class="cn">幸福</div></div>
+          <div class="card" onclick="speakText('lo lắng')"><div class="vn">lo lắng</div><div class="pron">/lo laːŋ/</div><div class="cn">担心</div></div>
+          <div class="card" onclick="speakText('ngạc nhiên')"><div class="vn">ngạc nhiên</div><div class="pron">/ŋaːk ɲiən/</div><div class="cn">惊讶</div></div>
+          <div class="card" onclick="speakText('xấu hổ')"><div class="vn">xấu hổ</div><div class="pron">/saʊ hoː/</div><div class="cn">害羞/惭愧</div></div>
+          <div class="card" onclick="speakText('thất vọng')"><div class="vn">thất vọng</div><div class="pron">/tʰaːt voŋ/</div><div class="cn">失望</div></div>
+          <div class="card" onclick="speakText('tức giận')"><div class="vn">tức giận</div><div class="pron">/tɨk zaːn/</div><div class="cn">愤怒</div></div>
+          <div class="card" onclick="speakText('thương')"><div class="vn">thương</div><div class="pron">/tʰɨəŋ/</div><div class="cn">爱/心疼</div></div>
+          <div class="card" onclick="speakText('nhớ')"><div class="vn">nhớ</div><div class="pron">/ɲəː/</div><div class="cn">想念</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-grammar" class="tab-content">
+      <div class="section-title">📖 基础语法</div>
+      <div class="info-box">
+        💡 越南语语法相对简单：<b>没有时态变化、没有词性变化、语序固定</b>。最大的特点是<b>形容词后置</b>和<b>量词丰富</b>。
+      </div>
+      <div class="section-title" style="font-size:1.1em">基本句型：主语 + 谓语 + 宾语</div>
+      <table>
+        <tr><th>越南语</th><th>语法结构</th><th>中文</th></tr>
+        <tr onclick="speakText('Tôi ăn cơm')"><td><b>Tôi ăn cơm.</b></td><td>我 + 吃 + 饭</td><td>我吃饭。</td></tr>
+        <tr onclick="speakText('Em đọc sách')"><td><b>Em đọc sách.</b></td><td>我 + 读 + 书</td><td>我读书。</td></tr>
+        <tr onclick="speakText('Anh uống cà phê')"><td><b>Anh uống cà phê.</b></td><td>你 + 喝 + 咖啡</td><td>你喝咖啡。</td></tr>
+        <tr onclick="speakText('Chị nói tiếng Việt')"><td><b>Chị nói tiếng Việt.</b></td><td>你 + 说 + 越南语</td><td>你说越南语。</td></tr>
+      </table>
+      <div class="section-title" style="font-size:1.1em">否定句（dùng "không"）</div>
+      <table>
+        <tr><th>越南语</th><th>中文</th></tr>
+        <tr onclick="speakText('Tôi không ăn')"><td><b>Tôi không ăn.</b></td><td>我不吃。</td></tr>
+        <tr onclick="speakText('Em không hiểu')"><td><b>Em không hiểu.</b></td><td>我不懂。</td></tr>
+        <tr onclick="speakText('Anh không biết')"><td><b>Anh không biết.</b></td><td>你不知道。</td></tr>
+        <tr onclick="speakText('Không có')"><td><b>Không có.</b></td><td>没有。</td></tr>
+      </table>
+      <div class="section-title" style="font-size:1.1em">疑问句（dùng "có ... không?"）</div>
+      <table>
+        <tr><th>越南语</th><th>中文</th></tr>
+        <tr onclick="speakText('Bạn có khỏe không')"><td><b>Bạn có khỏe không?</b></td><td>你好吗？</td></tr>
+        <tr onclick="speakText('Bạn có hiểu không')"><td><b>Bạn có hiểu không?</b></td><td>你懂吗？</td></tr>
+        <tr onclick="speakText('Đây có phải là... không')"><td><b>Đây có phải là... không?</b></td><td>这是...吗？</td></tr>
+        <tr onclick="speakText('Bạn có thể giúp tôi không')"><td><b>Bạn có thể giúp tôi không?</b></td><td>你能帮我吗？</td></tr>
+      </table>
+      <div class="section-title" style="font-size:1.1em">形容词后置</div>
+      <div class="tip-box">
+        ⚠️ <b>重要特点：</b>越南语的形容词放在名词<b>后面</b>（和中文相反）！
+      </div>
+      <table>
+        <tr><th>越南语</th><th>字面顺序</th><th>正确中文意思</th></tr>
+        <tr onclick="speakText('cơm nóng')"><td><b>cơm nóng</b></td><td>饭 + 热</td><td>热饭</td></tr>
+        <tr onclick="speakText('nước lạnh')"><td><b>nước lạnh</b></td><td>水 + 冷</td><td>冷水</td></tr>
+        <tr onclick="speakText('xe đỏ')"><td><b>xe đỏ</b></td><td>车 + 红</td><td>红车</td></tr>
+        <tr onclick="speakText('nhà cao')"><td><b>nhà cao</b></td><td>房子 + 高</td><td>高楼/高房子</td></tr>
+      </table>
+      <div class="section-title" style="font-size:1.1em">常用量词</div>
+      <table>
+        <tr><th>量词</th><th>用途</th><th>例子</th></tr>
+        <tr onclick="speakText('người')"><td><b>người</b></td><td>人</td><td>một người（一个人）</td></tr>
+        <tr onclick="speakText('cái')"><td><b>cái</b></td><td>通用物品</td><td>cái bàn（一张桌子）</td></tr>
+        <tr onclick="speakText('con')"><td><b>con</b></td><td>动物</td><td>con mèo（一只猫）</td></tr>
+        <tr onclick="speakText('quyển')"><td><b>quyển</b></td><td>书/本子</td><td>quyển sách（一本书）</td></tr>
+        <tr onclick="speakText('ly')"><td><b>ly</b></td><td>饮料（杯）</td><td>một ly cà phê（一杯咖啡）</td></tr>
+        <tr onclick="speakText('tô')"><td><b>tô</b></td><td>大碗</td><td>một tô phở（一碗河粉）</td></tr>
+      </table>
+    </div>
+
+    <div id="tab-dialogues" class="tab-content">
+      <div class="section-title">💬 情景对话</div>
+      <div class="sub-tabs">
+        <div class="sub-tab active" onclick="switchSubTab('dlg1', this)">初次见面</div>
+        <div class="sub-tab" onclick="switchSubTab('dlg2', this)">餐厅点餐</div>
+        <div class="sub-tab" onclick="switchSubTab('dlg3', this)">问路</div>
+        <div class="sub-tab" onclick="switchSubTab('dlg4', this)">购物</div>
+        <div class="sub-tab" onclick="switchSubTab('dlg5', this)">打车</div>
+        <div class="sub-tab" onclick="switchSubTab('dlg6', this)">酒店</div>
+        <div class="sub-tab" onclick="switchSubTab('dlg7', this)">看病</div>
+        <div class="sub-tab" onclick="switchSubTab('dlg8', this)">打电话</div>
+      </div>
+      <div id="dlg1" class="sub-content">
+        <div class="section-title" style="font-size:1.1em">场景一：初次见面</div>
+        <div class="dialogue-box">
+          <div class="dialogue-line dialogue-a"><span class="speaker">A (Minh):</span> <span class="vq" onclick="speakText('Xin chào, tôi tên là Minh. Rất vui được gặp bạn.')" style="cursor:pointer">Xin chào, tôi tên là Minh. Rất vui được gặp bạn.</span><br><span class="pp">/sin tɕaːw, toi ten laː min. rəːt vuːi ɗɨək ɣaːp ɓaːn/</span><br><span class="cc">你好，我叫明。很高兴认识你。</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">B (Lan):</span> <span class="vq" onclick="speakText('Chào Minh, tôi tên là Lan. Bạn đến từ đâu?')" style="cursor:pointer">Chào Minh, tôi tên là Lan. Bạn đến từ đâu?</span><br><span class="pp">/tɕaːw min, toi ten laː lan. ɓaːn den tɨʔ daʊ/</span><br><span class="cc">你好明，我叫兰。你来自哪里？</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">A:</span> <span class="vq" onclick="speakText('Tôi đến từ Trung Quốc. Bạn thì sao?')" style="cursor:pointer">Tôi đến từ Trung Quốc. Bạn thì sao?</span><br><span class="pp">/toi den tɨʔ tɕuŋ kwoːk. ɓaːn tiː ʂaːw/</span><br><span class="cc">我来自中国。你呢？</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">B:</span> <span class="vq" onclick="speakText('Tôi là người Việt Nam. Rất vui được làm quen với bạn!')" style="cursor:pointer">Tôi là người Việt Nam. Rất vui được làm quen với bạn!</span><br><span class="pp">/toi laː ɲɨəi viət naːm. rəːt vuːi ɗɨək laːm kwen vəi ɓaːn/</span><br><span class="cc">我是越南人。很高兴认识你！</span></div>
+        </div>
+      </div>
+      <div id="dlg2" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">场景二：餐厅点餐</div>
+        <div class="dialogue-box">
+          <div class="dialogue-line dialogue-a"><span class="speaker">服务员:</span> <span class="vq" onclick="speakText('Xin chào quý khách! Quý khách muốn đặt món gì?')" style="cursor:pointer">Xin chào quý khách! Quý khách muốn đặt món gì?</span><br><span class="pp">/sin tɕaːw ki khaːk. ki khaːk muəːn ɗaːt mon jiː/</span><br><span class="cc">欢迎光临！您想点什么？</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">顾客:</span> <span class="vq" onclick="speakText('Cho tôi một tô phở bò và một ly trà đá.')" style="cursor:pointer">Cho tôi một tô phở bò và một ly trà đá.</span><br><span class="pp">/tɕə toi moːt toː fəː ɓoː vaː moːt li tɕaː ɗaː/</span><br><span class="cc">给我一碗牛肉河粉和一杯冰茶。</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">服务员:</span> <span class="vq" onclick="speakText('Dạ, một tô phở bò và một ly trà đá. Còn gì nữa không ạ?')" style="cursor:pointer">Dạ, một tô phở bò và một ly trà đá. Còn gì nữa không ạ?</span><br><span class="pp">/jaː, moːt toː fəː ɓoː vaː moːt li tɕaː ɗaː. kɔn jiː nɨə xoŋ aː/</span><br><span class="cc">好的，一碗牛肉河粉和一杯冰茶。还要什么吗？</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">顾客:</span> <span class="vq" onclick="speakText('Thế thôi, cảm ơn.')" style="cursor:pointer">Thế thôi, cảm ơn.</span><br><span class="pp">/tʰeː tʰəːi, kaːm ʔəːn/</span><br><span class="cc">就这样，谢谢。</span></div>
+        </div>
+      </div>
+      <div id="dlg3" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">场景三：问路</div>
+        <div class="dialogue-box">
+          <div class="dialogue-line dialogue-a"><span class="speaker">游客:</span> <span class="vq" onclick="speakText('Xin lỗi, chợ gần đây không?')" style="cursor:pointer">Xin lỗi, chợ gần đây không?</span><br><span class="pp">/sin ləːi, tɕəː ɣəːn ɗaːi xoŋ/</span><br><span class="cc">对不起，市场离这里近吗？</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">路人:</span> <span class="vq" onclick="speakText('Có, đi thẳng khoảng 200 mét rồi quẹo trái là đến.')" style="cursor:pointer">Có, đi thẳng khoảng 200 mét rồi quẹo trái là đến.</span><br><span class="pp">/koː, diː tʰaŋ kʷaːŋ ʔaːm tɾaːm meːt rəːi kweːw tɕaːi laː den/</span><br><span class="cc">是的，直走大约200米然后左转就到了。</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">游客:</span> <span class="vq" onclick="speakText('Cảm ơn chị nhiều!')" style="cursor:pointer">Cảm ơn chị nhiều!</span><br><span class="pp">/kaːm ʔəːn tɕiː ɲiəʊ/</span><br><span class="cc">非常感谢姐姐！</span></div>
+        </div>
+      </div>
+      <div id="dlg4" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">场景四：购物</div>
+        <div class="dialogue-box">
+          <div class="dialogue-line dialogue-a"><span class="speaker">顾客:</span> <span class="vq" onclick="speakText('Cái áo này bao nhiêu tiền?')" style="cursor:pointer">Cái áo này bao nhiêu tiền?</span><br><span class="pp">/kaːi aːw naːi ɓaːw ɲiəʊ tiən/</span><br><span class="cc">这件衣服多少钱？</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">店员:</span> <span class="vq" onclick="speakText('200 nghìn đồng.')" style="cursor:pointer">200 nghìn đồng.</span><br><span class="pp">/ʔaːm tɾaːm ŋiːn ɗoŋ/</span><br><span class="cc">20万越南盾。</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">顾客:</span> <span class="vq" onclick="speakText('Đắt quá! Có rẻ hơn không?')" style="cursor:pointer">Đắt quá! Có rẻ hơn không?</span><br><span class="pp">/ɗaːt kwaː. koː ʐɛː həːn xoŋ/</span><br><span class="cc">太贵了！有便宜点的吗？</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">店员:</span> <span class="vq" onclick="speakText('Được, lấy 150 nghìn nhé.')" style="cursor:pointer">Được, lấy 150 nghìn nhé.</span><br><span class="pp">/ɗɨək, laːi ɲaːm tɾaːm tɕaːm ŋiːn ɲeː/</span><br><span class="cc">好吧，15万拿走吧。</span></div>
+        </div>
+      </div>
+      <div id="dlg5" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">场景五：打车</div>
+        <div class="dialogue-box">
+          <div class="dialogue-line dialogue-a"><span class="speaker">乘客:</span> <span class="vq" onclick="speakText('Xe đi sân bay bao nhiêu tiền?')" style="cursor:pointer">Xe đi sân bay bao nhiêu tiền?</span><br><span class="pp">/se diː ʂəːn ɓai ɓaːw ɲiəʊ tiən/</span><br><span class="cc">去机场多少钱？</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">司机:</span> <span class="vq" onclick="speakText('Khoảng 300 nghìn đồng. Lên xe đi!')" style="cursor:pointer">Khoảng 300 nghìn đồng. Lên xe đi!</span><br><span class="pp">/kʷaːŋ ɓaː tɾaːm ŋiːn ɗoŋ. len se diː/</span><br><span class="cc">大约30万盾。上车吧！</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">乘客:</span> <span class="vq" onclick="speakText('Chú ý đi đúng đường nhé!')" style="cursor:pointer">Chú ý đi đúng đường nhé!</span><br><span class="pp">/tɕuː iː diː ɗuŋ ɗɨəŋ ɲeː/</span><br><span class="cc">注意走对路哦！</span></div>
+        </div>
+      </div>
+      <div id="dlg6" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">场景六：酒店入住</div>
+        <div class="dialogue-box">
+          <div class="dialogue-line dialogue-a"><span class="speaker">客人:</span> <span class="vq" onclick="speakText('Tôi đã đặt phòng trước trên mạng. Tên là Minh.')" style="cursor:pointer">Tôi đã đặt phòng trước trên mạng. Tên là Minh.</span><br><span class="pp">/toi daː ɗaːt fɔŋ tɕɨək tɾəːn maːŋ. ten laː min/</span><br><span class="cc">我在网上预订了房间。名字是明。</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">前台:</span> <span class="vq" onclick="speakText('Dạ, để tôi kiểm tra... Phòng 305, đây là chìa khóa.')" style="cursor:pointer">Dạ, để tôi kiểm tra... Phòng 305, đây là chìa khóa.</span><br><span class="pp">/jaː, deː toi kiəm tɕaː... fɔŋ ɓaː tɾaːm lăm, ɗaːi laː tɕiə kʷaː/</span><br><span class="cc">好的，让我查一下... 305号房，这是钥匙。</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">客人:</span> <span class="vq" onclick="speakText('Wi-fi pass là gì?')" style="cursor:pointer">Wi-fi pass là gì?</span><br><span class="pp">/wi-fai paːs laː jiː/</span><br><span class="cc">Wi-fi 密码是什么？</span></div>
+        </div>
+      </div>
+      <div id="dlg7" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">场景七：看病</div>
+        <div class="dialogue-box">
+          <div class="dialogue-line dialogue-a"><span class="speaker">病人:</span> <span class="vq" onclick="speakText('Bác sĩ ơi, tôi bị đau đầu và sốt.')" style="cursor:pointer">Bác sĩ ơi, tôi bị đau đầu và sốt.</span><br><span class="pp">/ɓaːk ʂiː əːi, toi ɓiː ɗaʊ ɗəʊ vaː ʂot/</span><br><span class="cc">医生，我头疼并且发烧。</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">医生:</span> <span class="vq" onclick="speakText('Để tôi đo nhiệt độ... 38,5 độ. Bạn có dị ứng thuốc gì không?')" style="cursor:pointer">Để tôi đo nhiệt độ... 38,5 độ. Bạn có dị ứng thuốc gì không?</span><br><span class="pp">/deː toi ɗo ɲiət doː... tɾaːm tɕaːm tám koma năːm doː. ɓaːn koː ziəŋ tʰɨək jiː xoŋ/</span><br><span class="cc">让我量体温... 38.5度。你有药物过敏吗？</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">病人:</span> <span class="vq" onclick="speakText('Không, tôi không bị dị ứng.')" style="cursor:pointer">Không, tôi không bị dị ứng.</span><br><span class="pp">/xoŋ, toi xoŋ ɓiː ziəŋ/</span><br><span class="cc">没有，我没有过敏。</span></div>
+        </div>
+      </div>
+      <div id="dlg8" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">场景八：打电话</div>
+        <div class="dialogue-box">
+          <div class="dialogue-line dialogue-a"><span class="speaker">A:</span> <span class="vq" onclick="speakText('A-lô, Minh nói đấy ạ. Ai đấy ạ?')" style="cursor:pointer">A-lô, Minh nói đấy ạ. Ai đấy ạ?</span><br><span class="pp">/a loː, min noːi dəːi aː. aːi dəːi aː/</span><br><span class="cc">喂，我是明。请问是谁？</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">B:</span> <span class="vq" onclick="speakText('Chào Minh, tôi là Lan. Minh rảnh không?')" style="cursor:pointer">Chào Minh, tôi là Lan. Minh rảnh không?</span><br><span class="pp">/tɕaːw min, toi laː lan. min ʐaːŋ xoŋ/</span><br><span class="cc">明你好，我是兰。你有空吗？</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">A:</span> <span class="vq" onclick="speakText('Rảnh, có chuyện gì thế?')" style="cursor:pointer">Rảnh, có chuyện gì thế?</span><br><span class="pp">/ʐaːŋ, koː tɕwiə̯n jiː tʰeː/</span><br><span class="cc">有空，有什么事吗？</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-daily" class="tab-content">
+      <div class="section-title">📋 日常高频表达</div>
+      <div class="sub-tabs">
+        <div class="sub-tab active" onclick="switchSubTab('daily1', this)">日常表达</div>
+        <div class="sub-tab" onclick="switchSubTab('daily2', this)">饮食</div>
+        <div class="sub-tab" onclick="switchSubTab('daily3', this)">出行</div>
+        <div class="sub-tab" onclick="switchSubTab('daily4', this)">购物</div>
+        <div class="sub-tab" onclick="switchSubTab('daily5', this)">居家</div>
+        <div class="sub-tab" onclick="switchSubTab('daily6', this)">情感</div>
+      </div>
+      <div id="daily1" class="sub-content">
+        <div class="section-title" style="font-size:1.1em">日常高频句</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Tôi không hiểu')"><td><b>Tôi không hiểu.</b></td><td>/toi xoŋ hiəʊ/</td><td>我不懂。</td></tr>
+          <tr onclick="speakText('Bạn nói lại lần nữa được không')"><td><b>Bạn nói lại lần nữa được không?</b></td><td>/ɓaːn noːi laːi ləːn nɨə ɗɨək xoŋ/</td><td>你能再说一遍吗？</td></tr>
+          <tr onclick="speakText('Làm ơn nói chậm một chút')"><td><b>Làm ơn nói chậm một chút.</b></td><td>/laːm əːn noːi tɕəːm moːt tɕut/</td><td>请说慢一点。</td></tr>
+          <tr onclick="speakText('Tôi biết nói tiếng Việt một chút')"><td><b>Tôi biết nói tiếng Việt một chút.</b></td><td>/toi biət noːi tiəŋ viət moːt tɕut/</td><td>我会说一点越南语。</td></tr>
+          <tr onclick="speakText('Tôi không biết')"><td><b>Tôi không biết.</b></td><td>/toi xoŋ biət/</td><td>我不知道。</td></tr>
+          <tr onclick="speakText('Xin lỗi, tôi không nghe rõ')"><td><b>Xin lỗi, tôi không nghe rõ.</b></td><td>/sin ləːi toi xoŋ ŋɛ rəː/</td><td>对不起，我听不清楚。</td></tr>
+          <tr onclick="speakText('Tôi hiểu rồi')"><td><b>Tôi hiểu rồi.</b></td><td>/toi hiəʊ rəːi/</td><td>我懂了。</td></tr>
+          <tr onclick="speakText('Tuyệt vời')"><td><b>Tuyệt vời!</b></td><td>/tuət vəːi/</td><td>太棒了！</td></tr>
+          <tr onclick="speakText('Có chuyện gì vậy')"><td><b>Có chuyện gì vậy?</b></td><td>/koː tɕwiə̯n jiː vəːi/</td><td>怎么了？/ 什么事？</td></tr>
+          <tr onclick="speakText('Không sao')"><td><b>Không sao.</b></td><td>/xoŋ ʂaːw/</td><td>没关系。</td></tr>
+          <tr onclick="speakText('Chúc may mắn')"><td><b>Chúc may mắn!</b></td><td>/tɕuk mai maːn/</td><td>祝好运！</td></tr>
+          <tr onclick="speakText('Chúc mừng sinh nhật')"><td><b>Chúc mừng sinh nhật!</b></td><td>/tɕuk mɨŋ ʂin ɲəːt/</td><td>生日快乐！</td></tr>
+        </table>
+      </div>
+      <div id="daily2" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">饮食相关</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Tôi đói')"><td><b>Tôi đói.</b></td><td>/toi ɗəːi/</td><td>我饿了。</td></tr>
+          <tr onclick="speakText('Tôi khát')"><td><b>Tôi khát.</b></td><td>/toi xaːt/</td><td>我渴了。</td></tr>
+          <tr onclick="speakText('Cho tôi thực đơn')"><td><b>Cho tôi thực đơn.</b></td><td>/tɕə toi tʰuk dəːn/</td><td>给我菜单。</td></tr>
+          <tr onclick="speakText('Món này ngon quá')"><td><b>Món này ngon quá!</b></td><td>/mon naːi ŋon kwaː/</td><td>这道菜太好吃了！</td></tr>
+          <tr onclick="speakText('Tôi ăn chay')"><td><b>Tôi ăn chay.</b></td><td>/toi ɓaːn tɕaːi/</td><td>我吃素。</td></tr>
+          <tr onclick="speakText('Tính tiền')"><td><b>Tính tiền!</b></td><td>/tiŋ tiən/</td><td>买单！</td></tr>
+          <tr onclick="speakText('Có phở chay không')"><td><b>Có phở chay không?</b></td><td>/koː fəː tɕaːi xoŋ/</td><td>有素河粉吗？</td></tr>
+        </table>
+      </div>
+      <div id="daily3" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">出行相关</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Đi đâu thế')"><td><b>Đi đâu thế?</b></td><td>/diː dəʊ tʰeː/</td><td>去哪里？</td></tr>
+          <tr onclick="speakText('Tôi đi làm')"><td><b>Tôi đi làm.</b></td><td>/toi diː laːm/</td><td>我去上班。</td></tr>
+          <tr onclick="speakText('Đường đi bệnh viện ở đâu')"><td><b>Đường đi bệnh viện ở đâu?</b></td><td>/ɗɨəŋ diː ɓeːŋ viən əː dəʊ/</td><td>去医院的路在哪里？</td></tr>
+          <tr onclick="speakText('Bao xa')"><td><b>Bao xa?</b></td><td>/ɓaːw saː/</td><td>多远？</td></tr>
+          <tr onclick="speakText('Tôi bị lạc đường')"><td><b>Tôi bị lạc đường.</b></td><td>/toi ɓiː laːk ɗɨəŋ/</td><td>我迷路了。</td></tr>
+          <tr onclick="speakText('Ga xe lửa ở đâu')"><td><b>Ga xe lửa ở đâu?</b></td><td>/gaː se lɨə əː dəʊ/</td><td>火车站在哪里？</td></tr>
+        </table>
+      </div>
+      <div id="daily4" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">购物相关</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Bao nhiêu tiền')"><td><b>Bao nhiêu tiền?</b></td><td>/ɓaːw ɲiəʊ tiən/</td><td>多少钱？</td></tr>
+          <tr onclick="speakText('Đắt quá')"><td><b>Đắt quá!</b></td><td>/ɗaːt kwaː/</td><td>太贵了！</td></tr>
+          <tr onclick="speakText('Có rẻ hơn không')"><td><b>Có rẻ hơn không?</b></td><td>/koː ʐɛː həːn xoŋ/</td><td>有便宜点的吗？</td></tr>
+          <tr onclick="speakText('Tôi mua cái này')"><td><b>Tôi mua cái này.</b></td><td>/toi muə kaːi naːi/</td><td>我买这个。</td></tr>
+          <tr onclick="speakText('Cho tôi xem qua')"><td><b>Cho tôi xem qua.</b></td><td>/tɕə toi sem kwaː/</td><td>让我看看。</td></tr>
+          <tr onclick="speakText('Tôi lấy cái này')"><td><b>Tôi lấy cái này.</b></td><td>/toi laːi kaːi naːi/</td><td>我就要这个。</td></tr>
+        </table>
+      </div>
+      <div id="daily5" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">居家相关</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Nhà vệ sinh ở đâu')"><td><b>Nhà vệ sinh ở đâu?</b></td><td>/ɲaː veː ʂin əː dəʊ/</td><td>洗手间在哪里？</td></tr>
+          <tr onclick="speakText('Tôi muốn thuê nhà')"><td><b>Tôi muốn thuê nhà.</b></td><td>/toi muəːn tʰɨə ɲaː/</td><td>我想租房子。</td></tr>
+          <tr onclick="speakText('Tiền điện tiền nước bao nhiêu')"><td><b>Tiền điện tiền nước bao nhiêu?</b></td><td>/tiən diən tiən nɨək ɓaːw ɲiəʊ/</td><td>电费水费多少钱？</td></tr>
+          <tr onclick="speakText('Wifi có nhanh không')"><td><b>Wifi có nhanh không?</b></td><td>/wi-fai koː ɲaːn xoŋ/</td><td>Wi-Fi 快吗？</td></tr>
+        </table>
+      </div>
+      <div id="daily6" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">情感表达</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Tôi yêu Việt Nam')"><td><b>Tôi yêu Việt Nam.</b></td><td>/toi iəʊ viət naːm/</td><td>我爱越南。</td></tr>
+          <tr onclick="speakText('Tôi nhớ nhà')"><td><b>Tôi nhớ nhà.</b></td><td>/toi ɲəː ɲaː/</td><td>我想家。</td></tr>
+          <tr onclick="speakText('Tôi buồn')"><td><b>Tôi buồn.</b></td><td>/toi ɓuəːn/</td><td>我难过。</td></tr>
+          <tr onclick="speakText('Đừng lo lắng')"><td><b>Đừng lo lắng!</b></td><td>/dɨŋ lo laːŋ/</td><td>别担心！</td></tr>
+          <tr onclick="speakText('Tôi rất vui')"><td><b>Tôi rất vui.</b></td><td>/toi rəːt vuːi/</td><td>我很开心。</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-travel" class="tab-content">
+      <div class="section-title">✈️ 旅游专题</div>
+      <div class="sub-tabs">
+        <div class="sub-tab active" onclick="switchSubTab('tr1', this)">入境/海关</div>
+        <div class="sub-tab" onclick="switchSubTab('tr2', this)">交通</div>
+        <div class="sub-tab" onclick="switchSubTab('tr3', this)">观光</div>
+        <div class="sub-tab" onclick="switchSubTab('tr4', this)">餐厅</div>
+        <div class="sub-tab" onclick="switchSubTab('tr5', this)">紧急</div>
+        <div class="sub-tab" onclick="switchSubTab('tr6', this)">国家</div>
+      </div>
+      <div id="tr1" class="sub-content">
+        <div class="section-title" style="font-size:1.1em">入境与海关</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Hộ chiếu')"><td><b>hộ chiếu</b></td><td>/hoː tɕiəʊ/</td><td>护照</td></tr>
+          <tr onclick="speakText('Visa')"><td><b>visa</b></td><td>/visa/</td><td>签证</td></tr>
+          <tr onclick="speakText('Cho tôi xem hộ chiếu')"><td><b>Cho tôi xem hộ chiếu.</b></td><td>/tɕə toi sem hoː tɕiəʊ/</td><td>请给我看护照。</td></tr>
+          <tr onclick="speakText('Mục đích chuyến đi là du lịch')"><td><b>Mục đích chuyến đi là du lịch.</b></td><td>/muk diːk tɕwiə̯n diː laː zu liːk/</td><td>旅行目的是旅游。</td></tr>
+          <tr onclick="speakText('Tôi ở lại 7 ngày')"><td><b>Tôi ở lại 7 ngày.</b></td><td>/toi əː laːi ɓaːi ɲaːi/</td><td>我停留7天。</td></tr>
+        </table>
+      </div>
+      <div id="tr2" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">旅游交通</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Vé máy bay')"><td><b>vé máy bay</b></td><td>/veː maːi ɓai/</td><td>机票</td></tr>
+          <tr onclick="speakText('Ga tàu')"><td><b>ga tàu</b></td><td>/gaː taʊ/</td><td>火车站</td></tr>
+          <tr onclick="speakText('Xe buýt')"><td><b>xe buýt</b></td><td>/se ɓuːit/</td><td>公交车</td></tr>
+          <tr onclick="speakText('Thuê xe máy')"><td><b>thuê xe máy</b></td><td>/tʰɨə se maːi/</td><td>租摩托车</td></tr>
+          <tr onclick="speakText('Bao nhiêu một ngày')"><td><b>Bao nhiêu một ngày?</b></td><td>/ɓaːw ɲiəʊ moːt ɲaːi/</td><td>一天多少钱？</td></tr>
+        </table>
+      </div>
+      <div id="tr3" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">观光常用句</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Chỗ này đẹp quá')"><td><b>Chỗ này đẹp quá!</b></td><td>/tɕəː naːi dep kwaː/</td><td>这里好漂亮！</td></tr>
+          <tr onclick="speakText('Tôi muốn chụp ảnh')"><td><b>Tôi muốn chụp ảnh.</b></td><td>/toi muəːn tɕup aːɲ/</td><td>我想拍照。</td></tr>
+          <tr onclick="speakText('Cho tôi hỏi, chỗ này là đâu')"><td><b>Cho tôi hỏi, chỗ này là đâu?</b></td><td>/tɕə toi həːi, tɕəː naːi laː dəʊ/</td><td>请问，这是哪里？</td></tr>
+          <tr onclick="speakText('Có hướng dẫn viên không')"><td><b>Có hướng dẫn viên không?</b></td><td>/koː hɨəŋ dəːn viən xoŋ/</td><td>有导游吗？</td></tr>
+        </table>
+      </div>
+      <div id="tr4" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">旅游餐厅</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Nhà hàng gần đây')"><td><b>nhà hàng gần đây</b></td><td>/ɲaː haːŋ ɣəːn ɗaːi/</td><td>附近的餐厅</td></tr>
+          <tr onclick="speakText('Món ngon nhất ở đây là gì')"><td><b>Món ngon nhất ở đây là gì?</b></td><td>/mon ŋon ɲəːt əː ɗaːi laː jiː/</td><td>这里最好吃的菜是什么？</td></tr>
+          <tr onclick="speakText('Tôi bị dị ứng hải sản')"><td><b>Tôi bị dị ứng hải sản.</b></td><td>/toi ɓiː ziəŋ haːi ʂaːn/</td><td>我对海鲜过敏。</td></tr>
+        </table>
+      </div>
+      <div id="tr5" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">紧急求助</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Cứu tôi')"><td><b>Cứu tôi!</b></td><td>/kɨəʊ toi/</td><td>救命！</td></tr>
+          <tr onclick="speakText('Gọi công an')"><td><b>Gọi công an!</b></td><td>/ɣoːi koŋ aːn/</td><td>叫警察！</td></tr>
+          <tr onclick="speakText('Tôi bị mất đồ')"><td><b>Tôi bị mất đồ.</b></td><td>/toi ɓiː maːt doː/</td><td>我的东西丢了。</td></tr>
+          <tr onclick="speakText('Tôi bị tai nạn')"><td><b>Tôi bị tai nạn.</b></td><td>/toi ɓiː taːi naːn/</td><td>我出事故了。</td></tr>
+          <tr onclick="speakText('Bệnh viện ở đâu')"><td><b>Bệnh viện ở đâu?</b></td><td>/ɓeːŋ viən əː dəʊ/</td><td>医院在哪里？</td></tr>
+          <tr onclick="speakText('Số điện thoại khẩn cấp')"><td><b>Số điện thoại khẩn cấp</b></td><td>/ʂoː diən tʰwaːi kʰəːn kaːp/</td><td>紧急电话号码</td></tr>
+          <tr onclick="speakText('113')"><td><b>113</b></td><td>/moːt moːt tɾaːm/</td><td>警察（113）</td></tr>
+          <tr onclick="speakText('114')"><td><b>114</b></td><td>/moːt moːt tɾaːm/</td><td>消防（114）</td></tr>
+          <tr onclick="speakText('115')"><td><b>115</b></td><td>/moːt moːt tɾaːm/</td><td>急救（115）</td></tr>
+        </table>
+      </div>
+      <div id="tr6" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">主要国家名称</div>
+        <div class="info-box">
+          💡 在越南旅游或工作时，经常需要告诉别人你来自哪个国家。点击国家名即可听到发音！
+        </div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th><th>例句</th></tr>
+          <tr onclick="speakText('Trung Quốc')"><td><b>Trung Quốc</b></td><td>/tɕuŋ kwoːk/</td><td>中国</td><td>Tôi đến từ Trung Quốc.（我来自中国）</td></tr>
+          <tr onclick="speakText('Việt Nam')"><td><b>Việt Nam</b></td><td>/viət naːm/</td><td>越南</td><td>Tôi là ngưởi Việt Nam.（我是越南人）</td></tr>
+          <tr onclick="speakText('Mỹ')"><td><b>Mỹ</b></td><td>/miː/</td><td>美国</td><td>Tôi đến từ Mỹ.</td></tr>
+          <tr onclick="speakText('Anh')"><td><b>Anh</b></td><td>/aɲ/</td><td>英国</td><td>Tôi đến từ Anh.</td></tr>
+          <tr onclick="speakText('Pháp')"><td><b>Pháp</b></td><td>/faːp/</td><td>法国</td><td>Tôi đến từ Pháp.</td></tr>
+          <tr onclick="speakText('Nhật Bản')"><td><b>Nhật Bản</b></td><td>/ɲəːt ɓaːn/</td><td>日本</td><td>Tôi đến từ Nhật Bản.</td></tr>
+          <tr onclick="speakText('Hàn Quốc')"><td><b>Hàn Quốc</b></td><td>/haːn kwoːk/</td><td>韩国</td><td>Tôi đến từ Hàn Quốc.</td></tr>
+          <tr onclick="speakText('Thái Lan')"><td><b>Thái Lan</b></td><td>/tʰaːi laːn/</td><td>泰国</td><td>Tôi đến từ Thái Lan.</td></tr>
+          <tr onclick="speakText('Singapore')"><td><b>Singapore</b></td><td>/siŋ gapoː/</td><td>新加坡</td><td>Tôi đến từ Singapore.</td></tr>
+          <tr onclick="speakText('Malaysia')"><td><b>Malaysia</b></td><td>/maː lei ʂiə/</td><td>马来西亚</td><td>Tôi đến từ Malaysia.</td></tr>
+          <tr onclick="speakText('Indonesia')"><td><b>Indonesia</b></td><td>/in ɗoː neː ʂiə/</td><td>印度尼西亚</td><td>Tôi đến từ Indonesia.</td></tr>
+          <tr onclick="speakText('Philippines')"><td><b>Philippines</b></td><td>/fiː liː pin/</td><td>菲律宾</td><td>Tôi đến từ Philippines.</td></tr>
+          <tr onclick="speakText('Đức')"><td><b>Đức</b></td><td>/ɗɨːk/</td><td>德国</td><td>Tôi đến từ Đức.</td></tr>
+          <tr onclick="speakText('Nga')"><td><b>Nga</b></td><td>/ŋaː/</td><td>俄罗斯</td><td>Tôi đến từ Nga.</td></tr>
+          <tr onclick="speakText('Úc')"><td><b>Úc</b></td><td>/ʔuːk/</td><td>澳大利亚</td><td>Tôi đến từ Úc.</td></tr>
+          <tr onclick="speakText('Canada')"><td><b>Canada</b></td><td>/kaː naː ɗaː/</td><td>加拿大</td><td>Tôi đến từ Canada.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-business" class="tab-content">
+      <div class="section-title">💼 商务越南语</div>
+      <div class="info-box">
+        💡 越南商务场合注重<b>称谓和礼貌</b>。对上级用 <b>anh/chị</b>（哥/姐），对下属用 <b>em</b>，对外人用 <b>quý khách/quý đối tác</b>（贵客/贵合作伙伴）。
+      </div>
+      <div class="section-title" style="font-size:1.1em">办公常用语</div>
+      <table>
+        <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+        <tr onclick="speakText('Tôi đi làm việc')"><td><b>Tôi đi làm việc.</b></td><td>/toi diː laːm viək/</td><td>我去上班。</td></tr>
+        <tr onclick="speakText('Tôi làm việc ở công ty')"><td><b>Tôi làm việc ở công ty.</b></td><td>/toi laːm viək əː koŋ tiː/</td><td>我在公司工作。</td></tr>
+        <tr onclick="speakText('Hôm nay tôi có cuộc họp')"><td><b>Hôm nay tôi có cuộc họp.</b></td><td>/hoːm nai toi koː kuək hoːp/</td><td>今天我有会议。</td></tr>
+        <tr onclick="speakText('Mấy giờ họp')"><td><b>Mấy giờ họp?</b></td><td>/meː ɣəː hoːp/</td><td>几点开会？</td></tr>
+        <tr onclick="speakText('Phòng họp ở đâu')"><td><b>Phòng họp ở đâu?</b></td><td>/fɔŋ hoːp əː dəʊ/</td><td>会议室在哪里？</td></tr>
+        <tr onclick="speakText('Tôi cần gửi email')"><td><b>Tôi cần gửi email.</b></td><td>/toi kəːn ɣuːi email/</td><td>我需要发邮件。</td></tr>
+        <tr onclick="speakText('Tôi nghỉ phép')"><td><b>Tôi nghỉ phép.</b></td><td>/toi ŋiː feːp/</td><td>我请假。</td></tr>
+        <tr onclick="speakText('Lương của tôi là...')"><td><b>Lương của tôi là...</b></td><td>/lɨəŋ kʊa toi laː/</td><td>我的工资是...</td></tr>
+      </table>
+      <div class="section-title" style="font-size:1.1em">商务会面</div>
+      <div class="dialogue-box">
+        <div class="dialogue-line dialogue-a"><span class="speaker">A:</span> <span class="vq" onclick="speakText('Xin chào, tôi là Minh từ công ty ABC. Rất vui được gặp anh.')" style="cursor:pointer">Xin chào, tôi là Minh từ công ty ABC. Rất vui được gặp anh.</span><br><span class="pp">/sin tɕaːw, toi laː min tɨʔ koŋ tiː A-B-C. rəːt vuːi ɗɨək ɣaːp aɲ/</span><br><span class="cc">你好，我是ABC公司的明。很高兴见到你。</span></div>
+        <div class="dialogue-line dialogue-b"><span class="speaker b">B:</span> <span class="vq" onclick="speakText('Chào Minh, tôi là Lan, giám đốc kinh doanh. Mời Minh vào phòng họp.')" style="cursor:pointer">Chào Minh, tôi là Lan, giám đốc kinh doanh. Mời Minh vào phòng họp.</span><br><span class="pp">/tɕaːw min, toi laː lan, jaːm ɗok kiŋ dwaːɲ. məːi min vaːw fɔŋ hoːp/</span><br><span class="cc">你好明，我是兰，销售总监。请进会议室。</span></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">商务高频词</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('công ty')"><div class="vn">công ty</div><div class="pron">/koŋ tiː/</div><div class="cn">公司</div></div>
+        <div class="card" onclick="speakText('giám đốc')"><div class="vn">giám đốc</div><div class="pron">/jaːm ɗok/</div><div class="cn">总监/经理</div></div>
+        <div class="card" onclick="speakText('nhân viên')"><div class="vn">nhân viên</div><div class="pron">/ɲən viən/</div><div class="cn">员工</div></div>
+        <div class="card" onclick="speakText('hợp đồng')"><div class="vn">hợp đồng</div><div class="pron">/hoːp ɗoŋ/</div><div class="cn">合同</div></div>
+        <div class="card" onclick="speakText('đối tác')"><div class="vn">đối tác</div><div class="pron">/ɗəːi taːk/</div><div class="cn">合作伙伴</div></div>
+        <div class="card" onclick="speakText('kinh doanh')"><div class="vn">kinh doanh</div><div class="pron">/kiŋ dwaːɲ/</div><div class="cn">销售/经营</div></div>
+        <div class="card" onclick="speakText('lợi nhuận')"><div class="vn">lợi nhuận</div><div class="pron">/ləːi ɲuən/</div><div class="cn">利润</div></div>
+        <div class="card" onclick="speakText('cuộc họp')"><div class="vn">cuộc họp</div><div class="pron">/kuək hoːp/</div><div class="cn">会议</div></div>
+      </div>
+    </div>
+
+    <div id="tab-romance" class="tab-content">
+      <div class="section-title">💕 情感表达</div>
+      <div class="info-box">
+        💡 <b>情感表达</b>是日常交流中非常重要的一部分。学会表达喜欢、想念、邀请，让你和越南朋友/伴侣的交流更自然！
+      </div>
+
+      <div class="sub-tabs">
+        <div class="sub-tab active" onclick="switchSubTab('ro1', this)">💖 表白</div>
+        <div class="sub-tab" onclick="switchSubTab('ro2', this)">💑 约会</div>
+        <div class="sub-tab" onclick="switchSubTab('ro3', this)">💬 日常</div>
+        <div class="sub-tab" onclick="switchSubTab('ro4', this)">❤️ 情侣对话</div>
+        <div class="sub-tab" onclick="switchSubTab('ro5', this)">🌟 赞美</div>
+      </div>
+
+      <!-- 表白 -->
+      <div id="ro1" class="sub-content">
+        <div class="section-title" style="font-size:1.1em">💖 表白与恋爱用语</div>
+        <div class="tip-box">
+          💡 越南语中表达"喜欢/爱"有多种方式，根据关系亲疏选择适当的表达。
+        </div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th><th>使用场景</th></tr>
+          <tr onclick="speakText('Tôi thích ban')"><td><b>Tôi thích ban.</b></td><td>/toi tʰik ɓan/</td><td>我喜欢你。</td><td>朋友间/初步表达好感</td></tr>
+          <tr onclick="speakText('Tôi thích bạn rat nhieu')"><td><b>Tôi thích bạn rat nhieu.</b></td><td>/toi tʰik ɓan rəːt ɲieu/</td><td>我很喜欢你。</td><td>表达较深好感</td></tr>
+          <tr onclick="speakText('Tôi yêu ban')"><td><b>Tôi yêu ban.</b></td><td>/toi yəʊ ɓan/</td><td>我爱你。</td><td>情侣/夫妻间</td></tr>
+          <tr onclick="speakText('Anh yêu em')"><td><b>Anh yêu em.</b></td><td>/aɲ yəʊ ɛm/</td><td>我爱你。(男对女说)</td><td>男友对女友</td></tr>
+          <tr onclick="speakText('Em yêu anh')"><td><b>Em yêu anh.</b></td><td>/ɛm yəʊ aɲ/</td><td>我爱你。(女对男说)</td><td>女友对男友</td></tr>
+          <tr onclick="speakText('Tôi nhớ ban')"><td><b>Tôi nhớ ban.</b></td><td>/toi ɲəː ɓan/</td><td>我想你。</td><td>朋友/情侣通用</td></tr>
+          <tr onclick="speakText('Anh nhớ em')"><td><b>Anh nhớ em.</b></td><td>/aɲ ɲəː ɛm/</td><td>我想你。(男对女)</td><td>男友对女友</td></tr>
+          <tr onclick="speakText('Em nhớ anh')"><td><b>Em nhớ anh.</b></td><td>/ɛm ɲəː aɲ/</td><td>我想你。(女对男)</td><td>女友对男友</td></tr>
+          <tr onclick="speakText('Ban có thích tôi không')"><td><b>Ban có thích tôi không?</b></td><td>/ɓan ko tʰik toi xoŋ/</td><td>你喜欢我吗？</td><td>试探对方心意</td></tr>
+          <tr onclick="speakText('Ban có muốn làm người yêu của tôi không')"><td><b>Ban có muốn làm người yêu của tôi không?</b></td><td>/ɓan ko muəːn laːm ŋuəi yəʊ kua toi xoŋ/</td><td>你愿意做我的女朋友/男朋友吗？</td><td>正式表白</td></tr>
+          <tr onclick="speakText('Chúng ta di chơi nhe')"><td><b>Chúng ta di chơi nhé!</b></td><td>/cʊŋ ta di cəːi ɲe/</td><td>我们约会吧！</td><td>邀请约会</td></tr>
+          <tr onclick="speakText('Tôi luôn nghĩ về ban')"><td><b>Tôi luôn nghĩ về ban.</b></td><td>/toi luəːn ŋiː về ɓan/</td><td>我一直在想你。</td><td>深情表达</td></tr>
+          <tr onclick="speakText('Ban đẹp qua')"><td><b>Ban đẹp quá!</b></td><td>/ɓan đẹp kwaː/</td><td>你好美！</td><td>赞美对方</td></tr>
+          <tr onclick="speakText('Ban dễ thương qua')"><td><b>Ban dễ thương quá!</b></td><td>/ɓan zɛ tʰɨəŋ kwaː/</td><td>你好可爱！</td><td>赞美对方</td></tr>
+          <tr onclick="speakText('Tôi không thể quên ban')"><td><b>Tôi không thể quên ban.</b></td><td>/toi xoŋ tʰeː kwen ɓan/</td><td>我无法忘记你。</td><td>深情表达</td></tr>
+        </table>
+        <div class="warn-box">
+          ⚠️ <b>注意：</b>越南语中<b>称谓很重要</b>！<br>
+          - 男对女说：用 <b>Anh</b>(哥)称呼自己，<b>Em</b>(妹)称呼对方<br>
+          - 女对男说：用 <b>Em</b>(妹)称呼自己，<b>Anh</b>(哥)称呼对方<br>
+          - 朋友间/不确定时：用 <b>Tôi</b>(我)和 <b>bạn</b>(你)即可
+        </div>
+      </div>
+
+      <!-- 约会邀请 -->
+      <div id="ro2" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">💑 约会邀请</div>
+        <div class="info-box">
+          📍 约会邀请常用句型：<b>Moi/Tôi mợi + 对方 + 去做的事</b>
+        </div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Moi bạn di xem phim nhe')"><td><b>Mời bạn di xem phim nhé!</b></td><td>/məːi ɓan di seːm fim ɲe/</td><td>请你去看电影吧！</td></tr>
+          <tr onclick="speakText('Tôi mợi bạn di dạo công vien')"><td><b>Tôi moi bạn di dạo công vien.</b></td><td>/toi məːi ɓan di zaːw koŋ viən/</td><td>我请你去公园散步。</td></tr>
+          <tr onclick="speakText('Di uống cà phê khong')"><td><b>Di uống cà phê không?</b></td><td>/di uəːŋ ka fe xoŋ/</td><td>去喝咖啡吗？</td></tr>
+          <tr onclick="speakText('Di ăn tối cùng tôi nhé')"><td><b>Di ăn tối cùng tôi nhé!</b></td><td>/di an təːi kuŋ toi ɲe/</td><td>和我一起吃晚饭吧！</td></tr>
+          <tr onclick="speakText('Cuoi tuần này di xem triển làm nhe')"><td><b>Cuối tuần này di xem triển làm nhé!</b></td><td>/kuəi tuən naːi seːm tɕiən laːm ɲe/</td><td>这周末去看展览吧！</td></tr>
+          <tr onclick="speakText('Di xem cả nhạc cùng tôi không')"><td><b>Di xem cả nhạc cùng tôi không?</b></td><td>/di seːm ka ɲak kuŋ toi xoŋ/</td><td>和我一起去看演唱会吗？</td></tr>
+          <tr onclick="speakText('Di dạo biển cùng nhau nhe')"><td><b>Di dạo biển cùng nhau nhé!</b></td><td>/di zaːw biən kuŋ ɲaʊ ɲe/</td><td>一起去海边散步吧！</td></tr>
+          <tr onclick="speakText('Tối này rảnh khong')"><td><b>Tôi này rảnh không?</b></td><td>/təːi naːi ʐaɲ xoŋ/</td><td>今晚有空吗？</td></tr>
+        </table>
+        <div class="section-title" style="font-size:1.1em; margin-top:20px">🎬 看电影相关表达</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('xem phim')"><div class="vn">xem phim</div><div class="pron">/seːm fim/</div><div class="cn">看电影</div></div>
+          <div class="card" onclick="speakText('phim tinh cam')"><div class="vn">phim tinh cam</div><div class="pron">/fim tin kaːm/</div><div class="cn">爱情片</div></div>
+          <div class="card" onclick="speakText('phim hai')"><div class="vn">phim hai</div><div class="pron">/fim haːi/</div><div class="cn">喜剧片</div></div>
+          <div class="card" onclick="speakText('phim hanh dong')"><div class="vn">phim hanh dong</div><div class="pron">/fim haɲɗoŋ/</div><div class="cn">动作片</div></div>
+          <div class="card" onclick="speakText('ve phim')"><div class="vn">ve phim</div><div class="pron">/ve fim/</div><div class="cn">电影票</div></div>
+          <div class="card" onclick="speakText('rap phim')"><div class="vn">rap phim</div><div class="pron">/ʐap fim/</div><div class="cn">电影院</div></div>
+        </div>
+        <div class="section-title" style="font-size:1.1em; margin-top:20px">🎨 看展览相关表达</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('trien lam')"><div class="vn">trien lam</div><div class="pron">/tɕiən laːm/</div><div class="cn">展览</div></div>
+          <div class="card" onclick="speakText('bao tang')"><div class="vn">bao tang</div><div class="pron">/baːw taːɲ/</div><div class="cn">博物馆</div></div>
+          <div class="card" onclick="speakText('tranh anh')"><div class="vn">tranh anh</div><div class="pron">/tɕaɲ aɲ/</div><div class="cn">画作/图片</div></div>
+          <div class="card" onclick="speakText('nghe thuat')"><div class="vn">nghe thuat</div><div class="pron">/ŋe tʰuət/</div><div class="cn">艺术</div></div>
+        </div>
+      </div>
+
+      <!-- 情侣日常用语 -->
+      <div id="ro3" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">💬 情侣/夫妻日常用语</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Chào em')"><td><b>Chào em.</b></td><td>/cəːw ɛm/</td><td>你好，亲爱的。(男对女)</td></tr>
+          <tr onclick="speakText('Chào anh')"><td><b>Chào anh.</b></td><td>/cəːw aɲ/</td><td>你好，亲爱的。(女对男)</td></tr>
+          <tr onclick="speakText('Em đang làm gi')"><td><b>Em đang làm gì?</b></td><td>/ɛm daŋ laːm ɟiː/</td><td>你在做什么？(男问女)</td></tr>
+          <tr onclick="speakText('Anh đang làm gi')"><td><b>Anh đang làm gì?</b></td><td>/aɲ daŋ laːm ɟiː/</td><td>你在做什么？(女问男)</td></tr>
+          <tr onclick="speakText('Nho nhớ em')"><td><b>Nho nhớ em!</b></td><td>/ɲəː ɲəː ɛm/</td><td>想你啦！</td></tr>
+          <tr onclick="speakText('Anh yêu em nhieu lam')"><td><b>Anh yêu em nhieu lam.</b></td><td>/aɲ yəʊ ɛm ɲieu laːm/</td><td>我非常爱你。</td></tr>
+          <tr onclick="speakText('Em la tất cả với anh')"><td><b>Em la tất cả với anh.</b></td><td>/ɛm laː təːt kaː vəi aɲ/</td><td>你是我的一切。</td></tr>
+          <tr onclick="speakText('Di đâu do')"><td><b>Di đâu đó?</b></td><td>/di dəʊ dəː/</td><td>去哪儿啊？</td></tr>
+          <tr onclick="speakText('Ve nhà chua')"><td><b>Về nhà chưa?</b></td><td>/ve ɲa cɨə/</td><td>回家了吗？</td></tr>
+          <tr onclick="speakText('An cơm chua')"><td><b>An cơm chưa?</b></td><td>/an kəːm cɨə/</td><td>吃饭了吗？</td></tr>
+          <tr onclick="speakText('Ngu ngon nhe')"><td><b>Ngu ngon nhé!</b></td><td>/ŋu ŋon ɲe/</td><td>睡得好！(晚安)</td></tr>
+          <tr onclick="speakText('Hen gặp lai')"><td><b>Hẹn gặp lại!</b></td><td>/hen ɡaːp laːi/</td><td>待会见！</td></tr>
+          <tr onclick="speakText('Mo ước mo em')"><td><b>Mơ ước mo em.</b></td><td>/məː ɨək məː ɛm/</td><td>梦里梦到你。</td></tr>
+          <tr onclick="speakText('Chuc ngu ngon')"><td><b>Chúc ngu ngon!</b></td><td>/cuk ŋu ŋon/</td><td>祝睡得好！(晚安)</td></tr>
+          <tr onclick="speakText('Yêu em mai mai')"><td><b>Yêu em mai mãi.</b></td><td>/yəʊ ɛm maːi maːi/</td><td>永远爱你。</td></tr>
+        </table>
+      </div>
+
+      <!-- 情侣对话场景 -->
+      <div id="ro4" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">❤️ 情侣对话场景</div>
+
+        <div class="dialogue-box">
+          <div class="section-title" style="font-size:1em; color:#1976d2">场景1：邀请看电影</div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">Nam:</span> <span class="vq" onclick="speakText('Tối này rảnh không? Moi bạn di xem phim nhé!')" style="cursor:pointer">Tôi này rảnh không? Moi bạn di xem phim nhé!</span><br><span class="pp">/təːi naːi ʐaɲ xoŋ? məːi ɓan di seːm fim ɲe/</span><br><span class="cc">今晚有空吗？请你去看电影吧！</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">Lan:</span> <span class="vq" onclick="speakText('Hay quá! Di xem phim gì?')" style="cursor:pointer">Hay quá! Di xem phim gì?</span><br><span class="pp">/hai kwaː! di seːm fim ɟiː/</span><br><span class="cc">好啊！看什么电影？</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">Nam:</span> <span class="vq" onclick="speakText('Xem phim tinh cam nhé.')" style="cursor:pointer">Xem phim tinh cam nhé.</span><br><span class="pp">/seːm fim tin kaːm ɲe/</span><br><span class="cc">看爱情片吧。</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">Lan:</span> <span class="vq" onclick="speakText('Được, em thích phim tinh cam.')" style="cursor:pointer">Được, em thích phim tinh cam.</span><br><span class="pp">/ɗəːk, ɛm tʰik fim tin kaːm/</span><br><span class="cc">好，我喜欢爱情片。</span></div>
+        </div>
+
+        <div class="dialogue-box">
+          <div class="section-title" style="font-size:1em; color:#1976d2">场景2：公园散步</div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">Lan:</span> <span class="vq" onclick="speakText('Cong viên này đẹp qua, mình chup anh nhé!')" style="cursor:pointer">Cong viên này đẹp qua, mình chup anh nhé!</span><br><span class="pp">/koŋ viən naːi đẹp kwaː, miɲ cʊp aɲ ɲe/</span><br><span class="cc">这个公园好美，我们拍照吧！</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">Nam:</span> <span class="vq" onclick="speakText('Được chứ, em đứng đây, anh chụp chỗ.')" style="cursor:pointer">Được chu, em đứng đây, anh chụp chỗ.</span><br><span class="pp">/ɗəːk cɨː, ɛm dɨŋ dəːi, aɲ cʊp cəː/</span><br><span class="cc">好啊，你站这里，我帮你拍。</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">Lan:</span> <span class="vq" onclick="speakText('Cam on anh, anh chup đẹp quá!')" style="cursor:pointer">Cam on anh, anh chup đẹp quá!</span><br><span class="pp">/kaːm əːn aɲ, aɲ cʊp đẹp kwaː/</span><br><span class="cc">谢谢哥哥，你拍得真好！</span></div>
+        </div>
+
+        <div class="dialogue-box">
+          <div class="section-title" style="font-size:1em; color:#1976d2">场景3：看展览</div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">Nam:</span> <span class="vq" onclick="speakText('Cuoi tuần này có triển làm hoi hoa, mình di xem nhé.')" style="cursor:pointer">Cuối tuần này có triển làm hoi hoa, mình di xem nhé.</span><br><span class="pp">/kuəi tuən naːi ko tɕiən laːm həːi hwaː, miɲ di seːm ɲe/</span><br><span class="cc">这周末有画展，我们去看吧。</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">Lan:</span> <span class="vq" onclick="speakText('Tuyet, em thích xem tranh!')" style="cursor:pointer">Tuyệt, em thích xem tranh!</span><br><span class="pp">/tuyet, ɛm tʰik seːm tɕaɲ/</span><br><span class="cc">太好了，我喜欢看画！</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">Nam:</span> <span class="vq" onclick="speakText('Vay thứ Bảy lúc 2 giờ mình di nhé.')" style="cursor:pointer">Vậy thứ Bảy lúc 2 giờ mình di nhé.</span><br><span class="pp">/vəːi tʰɨ ɓaːi luk hʷi ɗəːŋ ɟə miɲ di ɲe/</span><br><span class="cc">那周六2点我们去吧。</span></div>
+        </div>
+
+        <div class="dialogue-box">
+          <div class="section-title" style="font-size:1em; color:#1976d2">场景4：表白场景</div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">Nam:</span> <span class="vq" onclick="speakText('Lan, anh có điều muốn nói với em.')" style="cursor:pointer">Lan, anh có điều muốn nói với em.</span><br><span class="pp">/lan, aɲ ko diəʊ muəːn nəːi vəi ɛm/</span><br><span class="cc">兰，我有话想对你说。</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">Lan:</span> <span class="vq" onclick="speakText('Gi the?')" style="cursor:pointer">Gì the?</span><br><span class="pp">/ɟi tʰe/</span><br><span class="cc">什么事？</span></div>
+          <div class="dialogue-line dialogue-a"><span class="speaker">Nam:</span> <span class="vq" onclick="speakText('Anh yêu em. Em có muốn làm người yêu của anh không?')" style="cursor:pointer">Anh yêu em. Em có muốn làm người yêu của anh không?</span><br><span class="pp">/aɲ yəʊ ɛm. ɛm ko muəːn laːm ŋuəi yəʊ kua aɲ xoŋ/</span><br><span class="cc">我爱你。你愿意做我的女朋友吗？</span></div>
+          <div class="dialogue-line dialogue-b"><span class="speaker b">Lan:</span> <span class="vq" onclick="speakText('Em cùng yêu anh!')" style="cursor:pointer">Em cùng yêu anh!</span><br><span class="pp">/ɛm kuŋ yəʊ aɲ/</span><br><span class="cc">我也爱你！</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-hobbies" class="tab-content">
+    <div class="section-title">🎨 Sở thích (兴趣爱好)</div>
+    <div class="info-box" style="background:#f0f9ff; border-color:#3b82f6">
+      <b>📚 Các điểm học tập / 学习要点：</b><br>
+      ✅ Hỏi về sở thích của đối phương / 询问对方的兴趣爱好<br>
+      ✅ Bày tỏ sở thích của mình / 表达自己的兴趣爱好<br>
+      ✅ Mở đầu câu bằng "Tôi thích..." / 用"Tôi thích..."开头<br>
+      ✅ Mở đầu câu bằng "Tôi không thích..." / 用"Tôi không thích..."开头<br>
+      ✅ Hỏi đối phương có thích làm gì không / 问对方是否喜欢做某事<br>
+      ✅ Mở đầu câu bằng "Bạn có thích...không?" / 用"Bạn có thích...không?"开头<br>
+      ✅ Mở đầu câu bằng "Bạn có muốn...không?" / 用"Bạn có muốn...không?"开头
+    </div>
+    
+    <div class="section-title" style="font-size:1.1em; color:#1e3a8a; margin-top:20px">❓ Câu hỏi về sở thích / 询问喜好</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="jp">Sở thích của bạn là gì?</div>
+        <div class="zh">你的兴趣是什么？</div>
+        <div class="pron">[So thich cua ban la gi?]</div>
+        <button class="speak-btn" onclick="speakText('Sở thích của bạn là gì?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn thích làm gì?</div>
+        <div class="zh">你喜欢做什么？</div>
+        <div class="pron">[Ban thich lam gi?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn thích làm gì?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn thích ăn gì?</div>
+        <div class="zh">你喜欢吃什么？</div>
+        <div class="pron">[Ban thich an gi?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn thích ăn gì?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn thích đi đâu?</div>
+        <div class="zh">你喜欢去哪里？</div>
+        <div class="pron">[Ban thich di dau?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn thích đi đâu?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn thích làm gì vào cuối tuần?</div>
+        <div class="zh">你周末喜欢做什么？</div>
+        <div class="pron">[Ban thich lam gi vao cuoi tuan?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn thích làm gì vào cuối tuần?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn có thích đọc sách không?</div>
+        <div class="zh">你喜欢读书吗？</div>
+        <div class="pron">[Ban co thich doc sach khong?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn có thích đọc sách không?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn có thích xem phim không?</div>
+        <div class="zh">你喜欢看电影吗？</div>
+        <div class="pron">[Ban co thich xem phim khong?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn có thích xem phim không?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn có thích nghe nhạc không?</div>
+        <div class="zh">你喜欢听音乐吗？</div>
+        <div class="pron">[Ban co thich nghe nhac khong?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn có thích nghe nhạc không?')">🔊</button>
+      </div>
+    </div>
+    
+    <div class="section-title" style="font-size:1.1em; color:#1e3a8a; margin-top:20px">🎯 Từ vựng về sở thích / 兴趣爱好词汇</div>
+    <table class="vocab-table">
+      <tr>
+        <th>Tiếng Việt</th>
+        <th>Pronunciation</th>
+        <th>中文</th>
+        <th>🔊</th>
+      </tr>
+      <tr><td>Sở thích</td><td>so thich</td><td>兴趣</td><td><button class="speak-btn" onclick="speakText('Sở thích')">🔊</button></td></tr>
+      <tr><td>Xem phim</td><td>xem phim</td><td>看电影</td><td><button class="speak-btn" onclick="speakText('Xem phim')">🔊</button></td></tr>
+      <tr><td>Nghe nhạc</td><td>nghe nhac</td><td>听音乐</td><td><button class="speak-btn" onclick="speakText('Nghe nhạc')">🔊</button></td></tr>
+      <tr><td>Đọc sách</td><td>doc sach</td><td>读书</td><td><button class="speak-btn" onclick="speakText('Đọc sách')">🔊</button></td></tr>
+      <tr><td>Du lịch</td><td>du lich</td><td>旅行</td><td><button class="speak-btn" onclick="speakText('Du lịch')">🔊</button></td></tr>
+      <tr><td>Nấu ăn</td><td>nau an</td><td>烹饪</td><td><button class="speak-btn" onclick="speakText('Nấu ăn')">🔊</button></td></tr>
+      <tr><td>Chơi thể thao</td><td>choi the thao</td><td>做运动</td><td><button class="speak-btn" onclick="speakText('Chơi thể thao')">🔊</button></td></tr>
+      <tr><td>Chạy bộ</td><td>chay bo</td><td>跑步</td><td><button class="speak-btn" onclick="speakText('Chạy bộ')">🔊</button></td></tr>
+      <tr><td>Bơi lội</td><td>boi loi</td><td>游泳</td><td><button class="speak-btn" onclick="speakText('Bơi lội')">🔊</button></td></tr>
+      <tr><td>Chơi bóng đá</td><td>choi bong da</td><td>踢足球</td><td><button class="speak-btn" onclick="speakText('Chơi bóng đá')">🔊</button></td></tr>
+      <tr><td>Chơi cầu lông</td><td>choi cau long</td><td>打羽毛球</td><td><button class="speak-btn" onclick="speakText('Chơi cầu lông')">🔊</button></td></tr>
+      <tr><td>Vẽ tranh</td><td>ve tranh</td><td>画画</td><td><button class="speak-btn" onclick="speakText('Vẽ tranh')">🔊</button></td></tr>
+      <tr><td>Chụp ảnh</td><td>chup anh</td><td>摄影</td><td><button class="speak-btn" onclick="speakText('Chụp ảnh')">🔊</button></td></tr>
+      <tr><td>Hát karaoke</td><td>hat karaoke</td><td>唱卡拉OK</td><td><button class="speak-btn" onclick="speakText('Hát karaoke')">🔊</button></td></tr>
+      <tr><td>Chơi game</td><td>choi game</td><td>打游戏</td><td><button class="speak-btn" onclick="speakText('Chơi game')">🔊</button></td></tr>
+      <tr><td>Mua sắm</td><td>mua sam</td><td>购物</td><td><button class="speak-btn" onclick="speakText('Mua sắm')">🔊</button></td></tr>
+      <tr><td>Nhảy múa</td><td>nhay mua</td><td>跳舞</td><td><button class="speak-btn" onclick="speakText('Nhảy múa')">🔊</button></td></tr>
+      <tr><td>Làm vườn</td><td>lam vuon</td><td>园艺</td><td><button class="speak-btn" onclick="speakText('Làm vườn')">🔊</button></td></tr>
+      <tr><td>Câu cá</td><td>cau ca</td><td>钓鱼</td><td><button class="speak-btn" onclick="speakText('Câu cá')">🔊</button></td></tr>
+      <tr><td>Leo núi</td><td>leo nui</td><td>爬山</td><td><button class="speak-btn" onclick="speakText('Leo núi')">🔊</button></td></tr>
+      <tr><td>Trượt tuyết</td><td>truot tuyet</td><td>滑雪</td><td><button class="speak-btn" onclick="speakText('Trượt tuyết')">🔊</button></td></tr>
+      <tr><td>Trượt ván</td><td>truot van</td><td>滑板</td><td><button class="speak-btn" onclick="speakText('Trượt ván')">🔊</button></td></tr>
+      <tr><td>Chơi cờ</td><td>choi co</td><td>下棋</td><td><button class="speak-btn" onclick="speakText('Chơi cờ')">🔊</button></td></tr>
+      <tr><td>Thiền</td><td>thien</td><td>冥想</td><td><button class="speak-btn" onclick="speakText('Thiền')">🔊</button></td></tr>
+      <tr><td>Chơi nhạc cụ</td><td>choi nhac cu</td><td>演奏乐器</td><td><button class="speak-btn" onclick="speakText('Chơi nhạc cụ')">🔊</button></td></tr>
+      <tr><td>Xem phim hoạt hình</td><td>xem phim hoat hinh</td><td>看动画片</td><td><button class="speak-btn" onclick="speakText('Xem phim hoạt hình')">🔊</button></td></tr>
+      <tr><td>Lướt web</td><td>luot web</td><td>上网</td><td><button class="speak-btn" onclick="speakText('Lướt web')">🔊</button></td></tr>
+      <tr><td>Viết blog</td><td>viet blog</td><td>写博客</td><td><button class="speak-btn" onclick="speakText('Viết blog')">🔊</button></td></tr>
+      <tr><td>Tập yoga</td><td>tap yoga</td><td>练瑜伽</td><td><button class="speak-btn" onclick="speakText('Tập yoga')">🔊</button></td></tr>
+      <tr><td>Đạp xe</td><td>dap xe</td><td>骑自行车</td><td><button class="speak-btn" onclick="speakText('Đạp xe')">🔊</button></td></tr>
+    </table>
+    
+    <div class="section-title" style="font-size:1.1em; color:#1e3a8a; margin-top:20px">📝 Câu hay - Bày tỏ sở thích / 表达喜好</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="jp">Tôi thích xem phim.</div>
+        <div class="zh">我喜欢看电影。</div>
+        <div class="pron">[Toi thich xem phim.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích xem phim.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích nghe nhạc.</div>
+        <div class="zh">我喜欢听音乐。</div>
+        <div class="pron">[Toi thich nghe nhac.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích nghe nhạc.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích chơi thể thao.</div>
+        <div class="zh">我喜欢做运动。</div>
+        <div class="pron">[Toi thich choi the thao.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích chơi thể thao.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích đọc sách.</div>
+        <div class="zh">我喜欢读书。</div>
+        <div class="pron">[Toi thich doc sach.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích đọc sách.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích du lịch.</div>
+        <div class="zh">我喜欢旅行。</div>
+        <div class="pron">[Toi thich du lich.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích du lịch.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích nấu ăn.</div>
+        <div class="zh">我喜欢烹饪。</div>
+        <div class="pron">[Toi thich nau an.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích nấu ăn.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích chụp ảnh.</div>
+        <div class="zh">我喜欢摄影。</div>
+        <div class="pron">[Toi thich chup anh.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích chụp ảnh.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích chơi game.</div>
+        <div class="zh">我喜欢打游戏。</div>
+        <div class="pron">[Toi thich choi game.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích chơi game.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi không thích chạy bộ.</div>
+        <div class="zh">我不喜欢跑步。</div>
+        <div class="pron">[Toi khong thich chay bo.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi không thích chạy bộ.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi rất thích hát karaoke.</div>
+        <div class="zh">我非常喜欢唱卡拉OK。</div>
+        <div class="pron">[Toi rat thich hat karaoke.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi rất thích hát karaoke.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Sở thích của tôi là vẽ tranh.</div>
+        <div class="zh">我的兴趣是画画。</div>
+        <div class="pron">[So thich cua toi la ve tranh.]</div>
+        <button class="speak-btn" onclick="speakText('Sở thích của tôi là vẽ tranh.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích làm vườn vào cuối tuần.</div>
+        <div class="zh">我喜欢在周末做园艺。</div>
+        <div class="pron">[Toi thich lam vuon vao cuoi tuan.]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích làm vườn vào cuối tuần.')">🔊</button>
+      </div>
+    </div>
+    
+    <div class="section-title" style="font-size:1.1em; color:#1e3a8a; margin-top:20px">🤝 Câu hay - Mời đối phương / 邀请对方</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="jp">Bạn có muốn xem phim cùng tôi không?</div>
+        <div class="zh">你想和我一起看电影吗？</div>
+        <div class="pron">[Ban co muon xem phim cung toi khong?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn có muốn xem phim cùng tôi không?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Cuối tuần này bạn có rảnh không?</div>
+        <div class="zh">这个周末你有空吗？</div>
+        <div class="pron">[Cuoi tuan nay ban co ranh khong?]</div>
+        <button class="speak-btn" onclick="speakText('Cuối tuần này bạn có rảnh không?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Chúng ta đi ăn cơm nhé!</div>
+        <div class="zh">我们去吃饭吧！</div>
+        <div class="pron">[Chung ta di an com nhe!]</div>
+        <button class="speak-btn" onclick="speakText('Chúng ta đi ăn cơm nhé!')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn có muốn đi uống cà phê không?</div>
+        <div class="zh">你想去喝咖啡吗？</div>
+        <div class="pron">[Ban co muon di uong ca phe khong?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn có muốn đi uống cà phê không?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Chúng ta cùng đi bơi nhé!</div>
+        <div class="zh">我们一起去游泳吧！</div>
+        <div class="pron">[Chung ta cung di boi nhe!]</div>
+        <button class="speak-btn" onclick="speakText('Chúng ta cùng đi bơi nhé!')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn có muốn đi dạo không?</div>
+        <div class="zh">你想去散步吗？</div>
+        <div class="pron">[Ban co muon di dao khong?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn có muốn đi dạo không?')">🔊</button>
+      </div>
+    </div>
+    
+    <div class="section-title" style="font-size:1.1em; color:#1e3a8a; margin-top:20px">✅❌ Câu hay - Chấp nhận / Từ chối / 接受与拒绝</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="jp">Được, tôi rất vui!</div>
+        <div class="zh">好的，我很高兴！</div>
+        <div class="pron">[Duoc, toi rat vui!]</div>
+        <button class="speak-btn" onclick="speakText('Được, tôi rất vui!')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Được chứ, tôi rất thích!</div>
+        <div class="zh">当然可以，我很喜欢！</div>
+        <div class="pron">[Duoc chu, toi rat thich!]</div>
+        <button class="speak-btn" onclick="speakText('Được chứ, tôi rất thích!')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tuyệt vời, chúng ta đi thôi!</div>
+        <div class="zh">太棒了，我们走吧！</div>
+        <div class="pron">[Tuyet voi, chung ta di thoi!]</div>
+        <button class="speak-btn" onclick="speakText('Tuyệt vời, chúng ta đi thôi!')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Xin lỗi, tôi bận rồi.</div>
+        <div class="zh">抱歉，我很忙。</div>
+        <div class="pron">[Xin loi, toi ban roi.]</div>
+        <button class="speak-btn" onclick="speakText('Xin lỗi, tôi bận rồi.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Hôm nay tôi không rảnh.</div>
+        <div class="zh">今天我没空。</div>
+        <div class="pron">[Hom nay toi khong ranh.]</div>
+        <button class="speak-btn" onclick="speakText('Hôm nay tôi không rảnh.')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Lần sau nhé!</div>
+        <div class="zh">下次吧！</div>
+        <div class="pron">[Lan sau nhe!]</div>
+        <button class="speak-btn" onclick="speakText('Lần sau nhé!')">🔊</button>
+      </div>
+    </div>
+    
+    <div class="section-title" style="font-size:1.1em; color:#1e3a8a; margin-top:20px">💬 Mẫu đối thoại / 对话示例</div>
+    <div class="dialogue-box" style="background:#f0f9ff; border-color:#3b82f6">
+      <div class="dialogue-title">🗣️ Đối thoại 1: Nói về sở thích / 对话1：谈论兴趣爱好</div>
+      <div class="dialogue-line">
+        <b>A:</b> Chào bạn, sở thích của bạn là gì?<br>
+        <span class="zh">你好，你的兴趣是什么？</span>
+      </div>
+      <div class="dialogue-line">
+        <b>B:</b> Tôi thích xem phim và nghe nhạc. Còn bạn thì sao?<br>
+        <span class="zh">我喜欢看电影和听音乐。你呢？</span>
+      </div>
+      <div class="dialogue-line">
+        <b>A:</b> Tôi thích chơi thể thao và đọc sách.<br>
+        <span class="zh">我喜欢做运动和读书。</span>
+      </div>
+      <div class="dialogue-line">
+        <b>B:</b> Bạn có muốn xem phim cùng tôi vào cuối tuần không?<br>
+        <span class="zh">你周末想和我一起看电影吗？</span>
+      </div>
+      <div class="dialogue-line">
+        <b>A:</b> Được chứ, tôi rất thích! Chúng ta xem phim gì?<br>
+        <span class="zh">当然可以，我很喜欢！我们看什么电影？</span>
+      </div>
+    </div>
+    
+    <div class="dialogue-box" style="background:#f0f9ff; border-color:#3b82f6">
+      <div class="dialogue-title">🗣️ Đối thoại 2: Mời đi chơi / 对话2：邀请出去玩</div>
+      <div class="dialogue-line">
+        <b>A:</b> Cuối tuần này bạn có rảnh không?<br>
+        <span class="zh">这个周末你有空吗？</span>
+      </div>
+      <div class="dialogue-line">
+        <b>B:</b> Có, tôi rảnh. Bạn có kế hoạch gì không?<br>
+        <span class="zh">有，我有空。你有什么计划吗？</span>
+      </div>
+      <div class="dialogue-line">
+        <b>A:</b> Chúng ta đi uống cà phê nhé!<br>
+        <span class="zh">我们去喝咖啡吧！</span>
+      </div>
+      <div class="dialogue-line">
+        <b>B:</b> Tuyệt vời, chúng ta đi thôi!<br>
+        <span class="zh">太棒了，我们走吧！</span>
+      </div>
+      <div class="dialogue-line">
+        <b>A:</b> Bạn thích uống cà phê hay trà?<br>
+        <span class="zh">你喜欢喝咖啡还是茶？</span>
+      </div>
+      <div class="dialogue-line">
+        <b>B:</b> Tôi thích cà phê hơn.<br>
+        <span class="zh">我更喜欢咖啡。</span>
+      </div>
+    </div>
+  </div><div id="tab-sentences" class="tab-content">
+      <div class="section-title">✏️ 造句练习</div>
+      <div class="info-box">
+        💡 <b>造句练习说明：</b>点击句子卡片可以听到发音。尝试用学过的词汇替换句子中的部分词语，造出自己的句子！
+      </div>
+      <div class="section-title" style="font-size:1.1em">基础句型练习</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('Tôi tên là...')"><div class="vn">Tôi tên là...</div><div class="pron">/toi ten laː/</div><div class="cn">我叫...（替换名字）</div></div>
+        <div class="card" onclick="speakText('Tôi đến từ...')"><div class="vn">Tôi đến từ...</div><div class="pron">/toi den tɨʔ/</div><div class="cn">我来自...（替换国家）</div></div>
+        <div class="card" onclick="speakText('Tôi là...')"><div class="vn">Tôi là...</div><div class="pron">/toi laː/</div><div class="cn">我是...（替换身份）</div></div>
+        <div class="card" onclick="speakText('Tôi thích...')"><div class="vn">Tôi thích...</div><div class="pron">/toi tʰik/</div><div class="cn">我喜欢...（替换事物）</div></div>
+        <div class="card" onclick="speakText('Tôi không thích...')"><div class="vn">Tôi không thích...</div><div class="pron">/toi xoŋ tʰik/</div><div class="cn">我不喜欢...</div></div>
+        <div class="card" onclick="speakText('Tôi muốn...')"><div class="vn">Tôi muốn...</div><div class="pron">/toi muəːn/</div><div class="cn">我想要...（替换物品/动作）</div></div>
+        <div class="card" onclick="speakText('Tôi cần...')"><div class="vn">Tôi cần...</div><div class="pron">/toi kəːn/</div><div class="cn">我需要...</div></div>
+        <div class="card" onclick="speakText('Có... không')"><div class="vn">Có... không?</div><div class="pron">/koː... xoŋ/</div><div class="cn">有...吗？（替换名词）</div></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">进阶句型（带连词）</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('Tôi ăn cơm và uống nước')"><div class="vn">Tôi ăn cơm và uống nước.</div><div class="pron">/toi ɓaːn kəːm vaː uŋ nɨək/</div><div class="cn">我吃饭和喝水。（用 và = 和）</div></div>
+        <div class="card" onclick="speakText('Tôi đi làm nhưng tôi mệt')"><div class="vn">Tôi đi làm nhưng tôi mệt.</div><div class="pron">/toi diː laːm ɲuŋ toi meːt/</div><div class="cn">我去上班但我累了。（用 nhưng = 但是）</div></div>
+        <div class="card" onclick="speakText('Nếu bạn rảnh thì đi chơi')"><div class="vn">Nếu bạn rảnh thì đi chơi.</div><div class="pron">/ɲəʊ ɓaːn ʐaːŋ tʰiː diː tɕəːi/</div><div class="cn">如果你有空就去玩。（用 nếu...thì = 如果...就）</div></div>
+        <div class="card" onclick="speakText('Tôi thích phở vì ngon')"><div class="vn">Tôi thích phở vì ngon.</div><div class="pron">/toi tʰik fəː viː ŋon/</div><div class="cn">我喜欢河粉因为好吃。（用 vì = 因为）</div></div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">替换练习（自己造句）</div>
+      <div class="info-box">
+        💡 <b>练习方法：</b>用下面的模板，替换 <b>[...]</b> 部分，造出你自己的句子！<br>
+        造好后点击"朗读"按钮听发音。
+      </div>
+      <table>
+        <tr><th>句型模板</th><th>你的句子</th><th>操作</th></tr>
+        <tr><td><b>Tôi tên là [tên của bạn]</b></td><td>我叫 ______</td><td><button class="speak-btn" onclick="speakText('Tôi tên là')">🔊 朗读</button></td></tr>
+        <tr><td><b>Tôi thích [món ăn/hoạt động]</b></td><td>我喜欢 ______</td><td><button class="speak-btn" onclick="speakText('Tôi thích')">🔊 朗读</button></td></tr>
+        <tr><td><b>Tôi muốn đi [địa điểm]</b></td><td>我想去 ______</td><td><button class="speak-btn" onclick="speakText('Tôi muốn đi')">🔊 朗读</button></td></tr>
+        <tr><td><b>[Động từ] + [Tân ngữ]</b></td><td>______ ______</td><td><button class="speak-btn" onclick="speakText('Tôi ăn cơm')">🔊 示例</button></td></tr>
+      </table>
+      <div class="tip-box" style="margin-top:16px">
+        💡 <b>连词速查：</b><br>
+        <b>và</b> = 和/与 &nbsp;|&nbsp; <b>nhưng</b> = 但是 &nbsp;|&nbsp; <b>nếu...thì</b> = 如果...就 &nbsp;|&nbsp; <b>vì</b> = 因为 &nbsp;|&nbsp; <b>nên</b> = 所以 &nbsp;|&nbsp; <b>hoặc</b> = 或者
+      </div>
+    </div>
+
+    <div id="tab-quiz" class="tab-content">
+      <div class="section-title">📝 综合测验</div>
+      <div id="quiz-container"></div>
+      <div id="quiz-result" class="quiz-result" style="display:none"></div>
+      <div style="text-align:center;margin-top:16px">
+        <button class="reload-btn" onclick="startQuiz()" style="padding:10px 24px;font-size:1em">🔄 重新开始测验</button>
+      </div>
+    </div>
+
+    <div id="tab-freestyle" class="tab-content">
+      <div class="section-title">🎤 自由朗读</div>
+      <div class="info-box">
+        💡 在下方输入任何越南语句子，点击"朗读"按钮即可听到发音。也可以点击快捷按钮快速朗读常用句子。
+      </div>
+      <div style="max-width:600px;margin:16px auto">
+        <textarea id="free-input" rows="3" style="width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:1em" placeholder="输入越南语句子..."></textarea>
+        <div style="text-align:center;margin-top:10px">
+          <button class="reload-btn" onclick="speakFree()" style="padding:10px 24px;font-size:1em">🔊 朗读</button>
+          <span id="free-status" style="margin-left:12px;color:#666;font-size:0.9em"></span>
+        </div>
+      </div>
+      <div class="section-title" style="font-size:1.1em">快捷朗读（点击即可听发音）</div>
+      <div class="card-grid">
+        <div class="card" onclick="speakText('Xin chào, tôi tên là...')"><div class="vn">Xin chào, tôi tên là...</div><div class="cn">你好，我叫...</div></div>
+        <div class="card" onclick="speakText('Tôi không hiểu, xin nói lại')"><div class="vn">Tôi không hiểu, xin nói lại.</div><div class="cn">我不懂，请再说一遍。</div></div>
+        <div class="card" onclick="speakText('Bao nhiêu tiền')"><div class="vn">Bao nhiêu tiền?</div><div class="cn">多少钱？</div></div>
+        <div class="card" onclick="speakText('Cảm ơn bạn rất nhiều')"><div class="vn">Cảm ơn bạn rất nhiều.</div><div class="cn">非常感谢你。</div></div>
+        <div class="card" onclick="speakText('Tôi yêu Việt Nam')"><div class="vn">Tôi yêu Việt Nam.</div><div class="cn">我爱越南。</div></div>
+        <div class="card" onclick="speakText('Phở bò, một tô')"><div class="vn">Phở bò, một tô.</div><div class="cn">牛肉河粉，一碗。</div></div>
+        <div class="card" onclick="speakText('Bánh mì, một ổ')"><div class="vn">Bánh mì, một ổ.</div><div class="cn">面包，一个。</div></div>
+        <div class="card" onclick="speakText('Cà phê sữa đá')"><div class="vn">Cà phê sữa đá.</div><div class="cn">冰奶咖啡。</div></div>
+      </div>
+    </div>
+
+      <!-- 赞美 -->
+      <div id="ro5" class="sub-content" style="display:none">
+        <div class="section-title" style="font-size:1.1em">🌟 赞美他人</div>
+        <div class="tip-box">
+          💡 赞美是拉近距离的最好方式！根据对方性别和亲疏关系，选择适当的称谓和表达。
+        </div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th><th>使用场景</th></tr>
+          <tr onclick="speakText('Ban dep qua')"><td><b>Ban dep qua!</b></td><td>/ɓan dep kwaː/</td><td>你很漂亮！</td><td>对女性朋友/通用</td></tr>
+          <tr onclick="speakText('Em dep qua')"><td><b>Em dep qua!</b></td><td>/ɛm dep kwaː/</td><td>你很漂亮！</td><td>男对女说</td></tr>
+          <tr onclick="speakText('Anh dep trai qua')"><td><b>Anh dep trai qua!</b></td><td>/aɲ dep tɕaːi kwaː/</td><td>你很帅！</td><td>女对男说</td></tr>
+          <tr onclick="speakText('Ban thong minh qua')"><td><b>Ban thong minh qua!</b></td><td>/ɓan tʰoŋ miɲ kwaː/</td><td>你很聪明！</td><td>通用</td></tr>
+          <tr onclick="speakText('Ban gioi qua')"><td><b>Ban gioi qua!</b></td><td>/ɓan ʈəːi kwaː/</td><td>你很厉害/优秀！</td><td>通用</td></tr>
+          <tr onclick="speakText('Ban lam viec rat tot')"><td><b>Ban lam viec rat tot!</b></td><td>/ɓan laːm viək rəːt tət/</td><td>你工作表现很好！</td><td>工作场合</td></tr>
+          <tr onclick="speakText('Ban xuat sac')"><td><b>Ban xuat sac!</b></td><td>/ɓan swət saːk/</td><td>你很出色！</td><td>正式赞美</td></tr>
+          <tr onclick="speakText('Ban tuyet voi')"><td><b>Ban tuyet voi!</b></td><td>/ɓan tuət vəːi/</td><td>你太棒了！</td><td>通用</td></tr>
+          <tr onclick="speakText('Ban rat uu tui')"><td><b>Ban rat uu tui!</b></td><td>/ɓan rəːt uː tuːi/</td><td>你很优秀！</td><td>正式赞美</td></tr>
+          <tr onclick="speakText('Chuc mung ban')"><td><b>Chuc mung ban!</b></td><td>/tɕuk muŋ ɓan/</td><td>恭喜你！</td><td>庆祝成就</td></tr>
+          <tr onclick="speakText('Ban co gang lam')"><td><b>Ban co gang lam!</b></td><td>/ɓan ko ɣaŋ laːm/</td><td>你很努力！</td><td>鼓励/赞美</td></tr>
+          <tr onclick="speakText('Ban rat de thuong')"><td><b>Ban rat de thuong!</b></td><td>/ɓan rəːt zɛ tʰɨəŋ/</td><td>你很可爱！</td><td>通用</td></tr>
+          <tr onclick="speakText('Anh that ga lang')"><td><b>Anh that ga lang!</b></td><td>/aɲ tʰəːt ɣaː laːŋ/</td><td>你真是个绅士！</td><td>女对男说</td></tr>
+          <tr onclick="speakText('Em that than thien')"><td><b>Em that than thien!</b></td><td>/ɛm tʰəːt tʰaːn tʰiən/</td><td>你真的很亲切！</td><td>男对女说</td></tr>
+          <tr onclick="speakText('Toi ngac nhien ve ban')"><td><b>Toi ngac nhien ve ban!</b></td><td>/təi ŋak ɲiən ve ɓan/</td><td>我对你刮目相看！</td><td>高度赞美</td></tr>
+        </table>
+
+        <div class="section-title" style="font-size:1.1em; margin-top:20px">💼 工作表现赞美</div>
+        <div class="card-grid">
+          <div class="card" onclick="speakText('lam viec tot')"><div class="vn">lam viec tot</div><div class="pron">/laːm viək tət/</div><div class="cn">工作表现好</div></div>
+  
+  
+          <div class="card" onclick="speakText('chuyen nghiep')"><div class="vn">chuyen nghiep</div><div class="pron">/tɕwiən ŋiəp/</div><div class="cn">专业</div></div>
+          <div class="card" onclick="speakText('co trach nhiem')"><div class="vn">co trach nhiem</div><div class="pron">/ko tɕaːk ɲiəm/</div><div class="cn">有责任心</div></div>
+          <div class="card" onclick="speakText('sang tao')"><div class="vn">sang tao</div><div class="pron">/ɕaːŋ taːw/</div><div class="cn">有创造力</div></div>
+          <div class="card" onclick="speakText('cham chi')"><div class="vn">cham chi</div><div class="pron">/tɕaːm tɕi/</div><div class="cn">勤奋</div></div>
+          <div class="card" onclick="speakText('thong minh')"><div class="vn">thong minh</div><div class="pron">/tʰoŋ miɲ/</div><div class="cn">聪明</div></div>
+        </div>
+
+        <div class="section-title" style="font-size:1.1em; margin-top:20px">🎁 接受赞美时如何回应</div>
+        <table>
+          <tr><th>越南语</th><th>发音</th><th>中文</th></tr>
+          <tr onclick="speakText('Cam on')"><td><b>Cam on!</b></td><td>/kaːm əːn/</td><td>谢谢！</td></tr>
+          <tr onclick="speakText('Ban qua khen')"><td><b>Ban qua khen!</b></td><td>/ɓan kwaː xɛn/</td><td>你太夸奖了！</td></tr>
+          <tr onclick="speakText('Toi cung the')"><td><b>Toi cung the.</b></td><td>/təi kuŋ tʰe/</td><td>我也一样。（谦虚回应）</td></tr>
+          <tr onclick="speakText('Rat vui duoc ban khen')"><td><b>Rat vui duoc ban khen.</b></td><td>/rəːt vuːi ɗɨək ɓan xɛn/</td><td>很高兴得到你的夸奖。</td></tr>
+        </table>
+      </div>
+    
+  </div><!-- end main-content -->
+
+</div><!-- end container -->
+
+<script>
+// ========== 语音合成 ==========
+let voices = [];
+let vnVoice = null;
+let speechReady = false;
+
+function loadVoices() {
+  voices = speechSynthesis.getVoices();
+  vnVoice = voices.find(v => v.lang === 'vi-VN' || v.lang === 'vi')
+           || voices.find(v => v.lang.startsWith('vi'));
+  speechReady = true;
+  updateStatus();
+}
+
+function updateStatus() {
+  const bar = document.getElementById('status-bar');
+  const voiceSelect = document.getElementById('voice-select');
+  const warning = document.getElementById('voice-warning');
+  if (voiceSelect && voices.length > 0) {
+    const curVal = voiceSelect.value;
+    voiceSelect.innerHTML = '';
+    voices.forEach((v, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      let label = v.name + ' (' + v.lang + ')';
+      if (v.localService) label += ' ★本地';
+      opt.textContent = label;
+      if (v === vnVoice) opt.selected = true;
+      voiceSelect.appendChild(opt);
+    });
+    if (curVal && voices[curVal]) voiceSelect.value = curVal;
+  }
+  if (vnVoice) {
+    bar.innerHTML = '✅ 越南语语音已就绪：<b>' + vnVoice.name + '</b>';
+    bar.style.color = '#27ae60';
+    if (warning) warning.style.display = 'none';
+  } else {
+    bar.innerHTML = '⚠️ 未找到越南语语音包，当前使用默认语音（可能不准）';
+    bar.style.color = '#e67e22';
+    if (warning) warning.style.display = 'block';
+  }
+}
+
+speechSynthesis.onvoiceschanged = loadVoices;
+setTimeout(loadVoices, 100);
+setTimeout(loadVoices, 500);
+setTimeout(loadVoices, 1000);
+
+function reloadVoices() {
+  document.getElementById('status-bar').textContent = '🔄 正在重新加载语音列表...';
+  speechSynthesis.cancel();
+  setTimeout(() => {
+    voices = speechSynthesis.getVoices();
+    vnVoice = voices.find(v => v.lang === 'vi-VN' || v.lang === 'vi')
+             || voices.find(v => v.lang.startsWith('vi'));
+    updateStatus();
+  }, 200);
+}
+
+function getSelectedVoice() {
+  const sel = document.getElementById('voice-select');
+  if (sel && sel.value !== '') return voices[parseInt(sel.value)] || null;
+  return vnVoice;
+}
+
+function speakText(text) {
+  if (!text) return;
+  if (!speechReady) { loadVoices(); setTimeout(() => speakText(text), 300); return; }
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'vi-VN';
+  utter.rate = parseFloat(document.getElementById('rate-slider').value);
+  utter.pitch = 1;
+  const selectedVoice = getSelectedVoice();
+  if (selectedVoice) utter.voice = selectedVoice;
+  utter.onerror = function(e) { document.getElementById('free-status').textContent = '❌ 朗读失败：' + e.error; };
+  speechSynthesis.speak(utter);
+  const st = document.getElementById('free-status');
+  if (st) st.textContent = '🔊 正在朗读：' + text;
+}
+
+function speakFree() {
+  const text = document.getElementById('free-input').value.trim();
+  if (!text) return;
+  speakText(text);
+}
+
+// ========== Tab 切换 ==========
+function switchTab(name, btnEl) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  const tab = document.getElementById('tab-' + name);
+  if (tab) tab.classList.add('active');
+  if (btnEl) btnEl.classList.add('active');
+  if (name === 'quiz') startQuiz();
+}
+
+function switchSubTab(name, btnEl) {
+  const parent = btnEl.closest('.tab-content') || document;
+  parent.querySelectorAll('.sub-content').forEach(el => el.style.display = 'none');
+  parent.querySelectorAll('.sub-tab').forEach(el => el.classList.remove('active'));
+  const sub = document.getElementById(name);
+  if (sub) sub.style.display = 'block';
+  btnEl.classList.add('active');
+}
+
+// ========== 测验 ==========
+const quizData = [
+  { q: '越南语有几个声调？', opts: ['4个', '5个', '6个', '7个'], ans: 2, hint: '越南语六大声调：平、玄、问、跌、重、锐' },
+  { q: '"Xin chào" 是什么意思？', opts: ['谢谢', '你好', '再见', '对不起'], ans: 1, hint: 'Xin chào 是最通用的问候语' },
+  { q: '数字"5"用越南语怎么说？', opts: ['bốn', 'năm', 'sáu', 'bảy'], ans: 1, hint: 'năm = 5' },
+  { q: '"cảm ơn" 是什么意思？', opts: ['对不起', '谢谢', '不客气', '再见'], ans: 1, hint: 'cảm ơn = 谢谢' },
+  { q: '越南语字母表有多少个字母？', opts: ['26个', '27个', '29个', '30个'], ans: 2, hint: '29个，比英文多7个：ă, â, đ, ê, ô, ơ, ư' },
+  { q: '"tôi" 是什么意思？', opts: ['你', '他', '我', '她'], ans: 2, hint: 'tôi = 我（通用）' },
+  { q: '星期一的越南语是？', opts: ['thứ hai', 'thứ ba', 'thứ tư', 'chủ nhật'], ans: 0, hint: 'thứ hai = 星期一' },
+  { q: '越南语形容词放在名词的哪里？', opts: ['前面', '后面', '中间', '任意位置'], ans: 1, hint: '越南语形容词后置，如 cơm nóng = 热饭' },
+  { q: '"phở" 是什么？', opts: ['面包', '河粉', '米饭', '咖啡'], ans: 1, hint: 'phở = 越南河粉' },
+  { q: '否定句用哪个词？', opts: ['có', 'không', 'là', 'và'], ans: 1, hint: 'không = 不/没有' },
+  { q: '"bánh mì" 是什么意思？', opts: ['河粉', '面包', '米饭', '面条'], ans: 1, hint: 'bánh mì = 面包（法棍）' },
+  { q: '100的越南语是？', opts: ['một trăm', 'một nghìn', 'mười', 'trăm'], ans: 0, hint: 'một trăm = 100' },
+  { q: '问"多少钱"用哪个短语？', opts: ['bao nhiêu tiền', 'mấy giờ', 'ở đâu', 'tại sao'], ans: 0, hint: 'bao nhiêu tiền = 多少钱' },
+  { q: '"xin lỗi" 是什么意思？', opts: ['谢谢', '对不起', '不客气', '你好'], ans: 1, hint: 'xin lỗi = 对不起' },
+  { q: '越南语的"谢谢"是？', opts: ['cảm ơn', 'không có chi', 'xin chào', 'tạm biệt'], ans: 0, hint: 'cảm ơn = 谢谢' },
+  { q: '"nhà" 是什么意思？', opts: ['学校', '家/房子', '商店', '医院'], ans: 1, hint: 'nhà = 家/房子' },
+  { q: '哪种食物是越南国菜？', opts: ['cơm', 'phở', 'bún', 'bánh mì'], ans: 1, hint: 'phở 是最有名的越南菜' },
+  { q: '"tôi không hiểu" 是什么意思？', opts: ['我懂了', '我不懂', '我知道', '我不知道'], ans: 1, hint: 'không hiểu = 不懂' },
+  { q: '量词"cái"用于？', opts: ['人', '动物', '通用物品', '书'], ans: 2, hint: 'cái 是通用量词' },
+  { q: '越南的首都是？', opts: ['Hồ Chí Minh', 'Hà Nội', 'Đà Nẵng', 'Huế'], ans: 1, hint: 'Hà Nội = 河内 = 首都' },
+];
+
+let quizIdx = 0;
+let quizScore = 0;
+
+function startQuiz() {
+  quizIdx = 0;
+  quizScore = 0;
+  document.getElementById('quiz-result').style.display = 'none';
+  showQuizQuestion();
+}
+
+function showQuizQuestion() {
+  const container = document.getElementById('quiz-container');
+  if (quizIdx >= quizData.length) {
+    const pct = Math.round(quizScore / quizData.length * 100);
+    let msg = '🎉 测验完成！得分：<b>' + quizScore + '/' + quizData.length + '</b> (' + pct + '%)<br>';
+    if (pct >= 90) msg += '🌟 太棒了！你已经是越南语小达人！';
+    else if (pct >= 70) msg += '👍 不错！再多复习一下发音和声调。';
+    else if (pct >= 50) msg += '💪 继续加油！建议多听发音，熟悉声调。';
+    else msg += '📚 建议从头开始，系统学习字母和声调。';
+    document.getElementById('quiz-result').innerHTML = msg;
+    document.getElementById('quiz-result').style.display = 'block';
+    container.innerHTML = '';
+    return;
+  }
+  const q = quizData[quizIdx];
+  let html = '<div class="quiz-question"><div style="font-weight:bold;margin-bottom:8px">第 ' + (quizIdx+1) + '/' + quizData.length + ' 题：' + q.q + '</div><div class="quiz-options">';
+  q.opts.forEach((opt, i) => {
+    html += '<div class="quiz-opt" onclick="checkQuiz(' + i + ', this)">' + opt + '</div>';
+  });
+  html += '</div>';
+  if (q.hint) html += '<div id="quiz-hint" style="margin-top:10px;color:#888;font-size:0.85em;display:none">💡 提示：' + q.hint + '</div>';
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function checkQuiz(choice, el) {
+  const q = quizData[quizIdx];
+  const opts = el.parentNode.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.style.pointerEvents = 'none');
+  if (choice === q.ans) {
+    el.classList.add('correct');
+    quizScore++;
+  } else {
+    el.classList.add('wrong');
+    opts[q.ans].classList.add('correct');
+  }
+  const hint = document.getElementById('quiz-hint');
+  if (hint) hint.style.display = 'block';
+  setTimeout(() => { quizIdx++; showQuizQuestion(); }, 1500);
+}
+
+// ========== 语速滑块 ==========
+const rateHtml = '<div style="max-width:600px;margin:8px auto;text-align:center"><label style="font-size:0.85em;color:#666">语速：</label><input type="range" id="rate-slider" min="0.5" max="1.5" step="0.1" value="0.9" style="width:120px;vertical-align:middle"><span id="rate-val" style="font-size:0.85em;color:#666;margin-left:4px">0.9x</span></div>';
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.querySelector('.container');
+  if (container) container.insertAdjacentHTML('beforeend', rateHtml);
+  const slider = document.getElementById('rate-slider');
+  if (slider) slider.addEventListener('input', function() { document.getElementById('rate-val').textContent = this.value + 'x'; });
+  loadVoices();
+});
+</script>
+</body>
+</html>
