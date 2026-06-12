@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -170,7 +171,7 @@
     <button class="tab-btn" onclick="switchTab('daily', this)">📋 常用</button>
     <button class="tab-btn" onclick="switchTab('travel', this)">✈️ 旅游</button>
     <button class="tab-btn" onclick="switchTab('business', this)">💼 商务</button>
-    <button class="tab-btn" onclick="switchTab('romance', this)">💕 情感</button>
+    <button class="tab-btn" onclick="switchTab('hobbies', this)">🎨 Sở thích (兴趣爱好)</button>
     <button class="tab-btn" onclick="switchTab('sentences', this)">✏️ 造句</button>
     <button class="tab-btn" onclick="switchTab('quiz', this)">📝 测验</button>
     <button class="tab-btn" onclick="switchTab('freestyle', this)">🎤 朗读</button>
@@ -1116,6 +1117,101 @@
         <div class="section-title" style="font-size:1.1em; margin-top:20px">💼 工作表现赞美</div>
         <div class="card-grid">
           <div class="card" onclick="speakText('lam viec tot')"><div class="vn">lam viec tot</div><div class="pron">/laːm viək tət/</div><div class="cn">工作表现好</div></div>
+  
+  <div id="tab-hobbies" class="tab-content">
+    <div class="section-title">🎨 Sở thích (兴趣爱好)</div>
+    <div class="info-box" style="background:#f0f9ff; border-color:#3b82f6">
+      <b>📚 Các điểm học tập:</b><br>
+      ✅ Hỏi về sở thích của đối phương<br>
+      ✅ Bày tỏ sở thích của mình<br>
+      ✅ Mời đối phương làm gì cùng<br>
+      ✅ Chấp nhận hoặc từ chối lời mời một cách lịch sự
+    </div>
+    
+    <div class="section-title" style="font-size:1.1em; color:#1e3a8a; margin-top:20px">❓ Câu hỏi về sở thích</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="jp">Sở thích của bạn là gì?</div>
+        <div class="zh">你的兴趣是什么？</div>
+        <div class="pron">[So thich cua ban la gi?]</div>
+        <button class="speak-btn" onclick="speakText('Sở thích của bạn là gì?')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Bạn thích làm gì?</div>
+        <div class="zh">你喜欢做什么？</div>
+        <div class="pron">[Ban thich lam gi?]</div>
+        <button class="speak-btn" onclick="speakText('Bạn thích làm gì?')">🔊</button>
+      </div>
+    </div>
+    
+    <div class="section-title" style="font-size:1.1em; color:#1e3a8a; margin-top:20px">🎯 Từ vựng về sở thích</div>
+    <table class="vocab-table">
+      <tr>
+        <th>Tiếng Việt</th>
+        <th>Pronunciation</th>
+        <th>中文</th>
+        <th>🔊</th>
+      </tr>
+      <tr>
+        <td>Sở thích</td>
+        <td>so thich</td>
+        <td>兴趣</td>
+        <td><button class="speak-btn" onclick="speakText('Sở thích')">🔊</button></td>
+      </tr>
+      <tr>
+        <td>Xem phim</td>
+        <td>xem phim</td>
+        <td>看电影</td>
+        <td><button class="speak-btn" onclick="speakText('Xem phim')">🔊</button></td>
+      </tr>
+      <tr>
+        <td>Nghe nhạc</td>
+        <td>nghe nhac</td>
+        <td>听音乐</td>
+        <td><button class="speak-btn" onclick="speakText('Nghe nhạc')">🔊</button></td>
+      </tr>
+      <tr>
+        <td>Đọc sách</td>
+        <td>doc sach</td>
+        <td>读书</td>
+        <td><button class="speak-btn" onclick="speakText('Đọc sách')">🔊</button></td>
+      </tr>
+      <tr>
+        <td>Du lịch</td>
+        <td>du lich</td>
+        <td>旅行</td>
+        <td><button class="speak-btn" onclick="speakText('Du lịch')">🔊</button></td>
+      </tr>
+      <tr>
+        <td>Nấu ăn</td>
+        <td>nau an</td>
+        <td>烹饪</td>
+        <td><button class="speak-btn" onclick="speakText('Nấu ăn')">🔊</button></td>
+      </tr>
+    </table>
+    
+    <div class="section-title" style="font-size:1.1em; color:#1e3a8a; margin-top:20px">📝 Câu hay - Bày tỏ sở thích</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="jp">Tôi thích xem phim</div>
+        <div class="zh">我喜欢看电影</div>
+        <div class="pron">[Toi thich xem phim]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích xem phim')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích nghe nhạc</div>
+        <div class="zh">我喜欢听音乐</div>
+        <div class="pron">[Toi thich nghe nhac]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích nghe nhạc')">🔊</button>
+      </div>
+      <div class="card">
+        <div class="jp">Tôi thích chơi thể thao</div>
+        <div class="zh">我喜欢做运动</div>
+        <div class="pron">[Toi thich choi the thao]</div>
+        <button class="speak-btn" onclick="speakText('Tôi thích chơi thể thao')">🔊</button>
+      </div>
+    </div>
+  </div>
           <div class="card" onclick="speakText('chuyen nghiep')"><div class="vn">chuyen nghiep</div><div class="pron">/tɕwiən ŋiəp/</div><div class="cn">专业</div></div>
           <div class="card" onclick="speakText('co trach nhiem')"><div class="vn">co trach nhiem</div><div class="pron">/ko tɕaːk ɲiəm/</div><div class="cn">有责任心</div></div>
           <div class="card" onclick="speakText('sang tao')"><div class="vn">sang tao</div><div class="pron">/ɕaːŋ taːw/</div><div class="cn">有创造力</div></div>
